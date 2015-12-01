@@ -1,0 +1,18 @@
+# Stash folder
+stash/
+
+# Build directories
+metabot_server/build/*
+metabot_client/build/*
+
+# QtCreator project files
+*.pro.user
+
+# CMake temporary files
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+Makefile
+install_manifest.txt
+cmake_install.cmake
+cmake_defines.h
