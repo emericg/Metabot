@@ -12,11 +12,11 @@ This Raspberry Pi version unlock some nice features:
   * "Direct" control mode (by connecting input device(s) to the RPi)
   * "Network" control mode (using another computer/mobile device connected to the RPi wifi hotspot)
 
-[without the electronic](https://goo.gl/photos/y5Mf6iVfevKr2Hrw7)
+[Photo gallery of my metabot](https://goo.gl/photos/wsRBAoyg2RaMAJFPA)
 
 ## How to
 
-You'll need a local copy of SmartServoFramework, and the [SFML 2+](https://github.com/SFML/SFML) library installed into your system.
+You'll need a local copy of [SmartServoFramework](https://github.com/emericg/SmartServoFramework), and the [SFML 2+](https://github.com/SFML/SFML) library installed into your system.
 You can build both the client and the server on pretty much any OS / HW platform you want.
 
 ### Setting up the Raspberry Pi
@@ -26,6 +26,7 @@ I have set up a google doc for my [Raspberry Pi stuffs](https://docs.google.com/
 ### Server
 
 Make sure you checkouted a copy of the [SmartServoFramework](https://github.com/emericg/SmartServoFramework) at ``metabot_server/src/SmartServoFramework``:
+
 * cd metabot_server/src
 * git clone https://github.com/emericg/SmartServoFramework.git
 
