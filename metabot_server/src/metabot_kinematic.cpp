@@ -5,8 +5,8 @@
  * - Rhoban System S.A.S
  */
 
-#include <cmath>
 #include "metabot_kinematic.h"
+#include <cmath>
 
 /*!
  * Solves the al Kashi problem
@@ -48,7 +48,7 @@ bool computeIK(float x, float y, float z,
     float beta = alKashi(l2, d, l3) - atan2(-z, xp);
     float gamma = M_PI - alKashi(l2, l3, d);
 
-    if (!isnan(alpha) && !isnan(beta) && !isnan(gamma)) {
+    if (!std::isnan(alpha) && !std::isnan(beta) && !std::isnan(gamma)) {
         *a = RAD2DEG(alpha);
         *b = RAD2DEG(beta);
         *c = RAD2DEG(gamma);
