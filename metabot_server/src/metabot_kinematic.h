@@ -15,7 +15,7 @@
 #define DEG2RAD(a) ((a)*M_PI/180.0)
 
 /*!
- * Computes the inverse kinematics for one leg
+ * Computes the inverse kinematics for one leg.
  *
  * Input x, y and z are the targe cartesian position,
  * in the referencial of the leg. The z axis is upward,

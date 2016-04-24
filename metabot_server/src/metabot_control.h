@@ -26,7 +26,7 @@ class Metabot
 
     /*!
      * This is the servos configuration, you can change the zero
-     * or the min/max limits here
+     * or the min/max limits here.
      */
     void setupLimits();
     void setupFunctions();
@@ -104,7 +104,7 @@ public:
     void run();
 
     /*!
-     * \brief move
+     * \brief Transmit a move order to the Metabot.
      * \param x: in mm per step, the move in the front axis
      * \param y: in mm per step, the move in the lateral axis
      * \param t: in ° per step, the rotation of the robot
@@ -124,8 +124,7 @@ public:
     void move(MoveitMoveit &move);
 
     /*!
-     * Changes the mapping of the leg, the input is the direction
-     * (between 0 and 3)
+     * Changes the mapping of the leg, the input is the direction (between 0 and 3)
      */
     void legRemap(int direction = 0);
 
