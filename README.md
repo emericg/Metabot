@@ -12,7 +12,7 @@ This Raspberry Pi version unlock some nice features:
   * "Direct" control mode (when connecting input device(s) to the RPi)
   * "Network" control mode (when using another computer/mobile device connected to the RPi wifi hotspot)
 
-[without the electronic](http://i.imgur.com/TQpCqeI.jpg)
+![A metabot without its electronic](http://i.imgur.com/F7R5CUV.jpg)
 
 [Photos and video gallery of my metabot](https://goo.gl/photos/wsRBAoyg2RaMAJFPA)
 
@@ -28,19 +28,19 @@ I have set up a shared google doc for my [Raspberry Pi stuffs](https://docs.goog
 ### Metabot server
 
 Make sure you checkouted a copy of the [SmartServoFramework](https://github.com/emericg/SmartServoFramework) at ``metabot_server/src/SmartServoFramework``:
-> $ cd metabot_server/src
-> $ git clone https://github.com/emericg/SmartServoFramework.git
+> $ cd metabot_server/src  
+> $ git clone https://github.com/emericg/SmartServoFramework.git  
 
 Then you can build the metabot server:
-> $ cd metabot_server
-> $ qmake
-> $ make
+> $ cd metabot_server  
+> $ qmake  
+> $ make  
 
 ### Metabot client
 
-> $ cd metabot_client
-> $ qmake
-> $ make
+> $ cd metabot_client  
+> $ qmake  
+> $ make  
 
 ## License
 
