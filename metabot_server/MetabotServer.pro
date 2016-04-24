@@ -12,26 +12,22 @@ UI_DIR      = build/
 MOC_DIR     = build/
 OBJECTS_DIR = build/
 
-@TARGET = tempcontrol
-target.path = /home/metabot
-INSTALLS = target@
-
 # Enables C++11
 QMAKE_CXXFLAGS += -std=c++11 -Wno-unused
-QMAKE_LFLAGS   +=-Wl,-rpath=/usr/local/lib
+QMAKE_LFLAGS   += -Wl,-rpath=/usr/local/lib
 
-# Add SMFL to support gamepads and network, SmartServoFramework for Dynamixel servos
+# Add SMFL to support gamepads and network
 LIBS += -lsfml-window -lsfml-network
+
+#SmartServoFramework for Dynamixel servos
 #LIBS += -lSmartServoFramework
 LIBS += -llockdev
 
-
-# SmartServoFramework sources (if not using it as a librairy)
+# SmartServoFramework sources (if not using it as a library)
 SOURCES += src/SmartServoFramework/src/*.cpp
 
 # Server application sources
 SOURCES += src/main.cpp \
-           src/minitraces.c \
            src/ctrl_network.cpp \
            src/ctrl_gamepad.cpp \
            src/ctrl_keyboard.cpp \
@@ -39,8 +35,7 @@ SOURCES += src/main.cpp \
            src/metabot_kinematic.cpp \
            src/metabot_function.cpp
 
-HEADERS += src/minitraces.h \
-           src/minitraces_conf.h \
+HEADERS += src/minitraces_conf.h \
            src/ctrl.h \
            src/ctrl_network.h \
            src/ctrl_gamepad.h \

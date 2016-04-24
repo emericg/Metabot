@@ -9,10 +9,12 @@ This Raspberry Pi version unlock some nice features:
 * Wifi hotspot, so every device can connect directly to the Metabot
 * High quality camera streaming
 * New control modes using keyboard or gamepads:
-  * "Direct" control mode (by connecting input device(s) to the RPi)
-  * "Network" control mode (using another computer/mobile device connected to the RPi wifi hotspot)
+  * "Direct" control mode (when connecting input device(s) to the RPi)
+  * "Network" control mode (when using another computer/mobile device connected to the RPi wifi hotspot)
 
-[without the electronic](https://goo.gl/photos/y5Mf6iVfevKr2Hrw7)
+[without the electronic](http://i.imgur.com/TQpCqeI.jpg)
+
+[Photos and video gallery of my metabot](https://goo.gl/photos/wsRBAoyg2RaMAJFPA)
 
 ## How to
 
@@ -21,24 +23,25 @@ You can build both the client and the server on pretty much any OS / HW platform
 
 ### Setting up the Raspberry Pi
 
-I have set up a google doc for my [Raspberry Pi stuffs](https://docs.google.com/document/d/1sD5Fkbx5KoUHv-pklI8Ck-DyjcLpjsvI0ImGqL_Kb-Q/edit?usp=sharing). It explain how to install and set up an Arch Linux onto a Pi, use the camera... Its mostly a memo for myself but it could be useful to others.
+I have set up a shared google doc for my [Raspberry Pi stuffs](https://docs.google.com/document/d/1sD5Fkbx5KoUHv-pklI8Ck-DyjcLpjsvI0ImGqL_Kb-Q/edit?usp=sharing). It explain how to install and set up an Arch Linux onto a Pi, stream the camera... Its mostly a memo for myself, but it could be useful to others.
 
-### Server
+### Metabot server
 
 Make sure you checkouted a copy of the [SmartServoFramework](https://github.com/emericg/SmartServoFramework) at ``metabot_server/src/SmartServoFramework``:
-* cd metabot_server/src
-* git clone https://github.com/emericg/SmartServoFramework.git
+> $ cd metabot_server/src
+> $ git clone https://github.com/emericg/SmartServoFramework.git
 
-* cd metabot_server
-* qmake
-* make
+Then you can build the metabot server:
+> $ cd metabot_server
+> $ qmake
+> $ make
 
-### Client
+### Metabot client
 
-* cd metabot_client
-* qmake
-* make
+> $ cd metabot_client
+> $ qmake
+> $ make
 
 ## License
 
-This project is under CC BY-NC license: http://creativecommons.org/licenses/by-nc/3.0/
+This project is licensed under CC BY-NC license: http://creativecommons.org/licenses/by-nc/3.0/
