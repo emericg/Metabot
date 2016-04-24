@@ -13,10 +13,11 @@
 
 #include "minitraces.h"
 
-
-
 #include <cmath>
 #include <cstdlib>
+
+//! Adjust this value to control max movement speed
+#define SPEEDCONTROL 1.0
 
 Metabot::Metabot()
 {
@@ -81,11 +82,11 @@ bool Metabot::setup()
 
                 // Lower serial timer (lower only after the pings)
                 dxl->serialSetLatency(8);
-/*
+
                 // Setup limits
                 setupLimits();
 
-                // Initializing positions to 0 ? // Or just read actual values ?
+                // Initializing positions to 0 ? // Or just read actual values?
                 for (int i=0; i<12; i++)
                 {
                     dxl->setGoalPosition(servos_order[i], angle_to_step(0.0));
@@ -94,7 +95,7 @@ bool Metabot::setup()
                 {
                     l1[i] = l2[i] = l3[i] = 0.0;
                 }
-*/
+
             }
         }
     }
@@ -238,8 +239,6 @@ void Metabot::toggleGait()
     }
 }
 
-#define SPEEDCONTROL 1.3
-
 void Metabot::move(float x, float y, float t)
 {
     dx = x * SPEEDCONTROL;
@@ -380,7 +379,7 @@ void Metabot::run()
             bool group = ((i&1)==1);
 
             // This defines the phase of the gait
-            float legPhase;
+            float legPhase = 0;
 
             if (gait == GAIT_WALK)
             {
