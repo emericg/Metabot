@@ -2,6 +2,8 @@
 #include "ctrl_gamepad.h"
 #include "minitraces.h"
 
+#include <cmath>
+
 #include <SFML/Window.hpp>
 
 /*
@@ -174,7 +176,7 @@ void gamepadControl::run(MoveitMoveit &move, bool &exit)
         if ((y > 24.0 || y < -24.0) || (x > 24.0 || x < -24.0)) // dead zone ?
         {
             // Compute stick angle
-            float ang = atan2(x, y) * 57.2957795 + 180.0;
+            float ang = std::atan2(x, y) * 57.2957795 + 180.0;
 
             if (ang >= 270)
                 move.turn = -(ang - 360);

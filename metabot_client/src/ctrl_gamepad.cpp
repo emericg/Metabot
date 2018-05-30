@@ -4,6 +4,8 @@
 
 #include <SFML/Window.hpp>
 
+#include <cmath>
+
 /*
     // Xbox 360 gamepad mapping:
     // 0 is A
@@ -174,7 +176,7 @@ void gamepadControl::run(MoveitMoveit &move, bool &exit)
         if ((y > 24.0 || y < -24.0) || (x > 24.0 || x < -24.0)) // dead zone ?
         {
             // Compute stick angle
-            float ang = atan2(x, y) * 57.2957795 + 180.0;
+            float ang = std::atan2(x, y) * 57.2957795 + 180.0;
 
             if (ang >= 270)
                 move.turn = -(ang - 360);

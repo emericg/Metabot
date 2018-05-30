@@ -45,13 +45,12 @@ int main(int argc, char *argv[])
 
     return a.exec();
 */
-    bool status = false;
     MoveitMoveit move;
 
     // Init KEYBOARD
     ////////////////////////////////////////////////////////////////////////////
 
-    keyboardControl *key = NULL;
+    keyboardControl *key = nullptr;
 
 #if ENABLE_KEY == 1
     key = new keyboardControl();
@@ -64,7 +63,7 @@ int main(int argc, char *argv[])
     // Init GAMEPAD
     ////////////////////////////////////////////////////////////////////////////
 
-    gamepadControl *pad = NULL;
+    gamepadControl *pad = nullptr;
 
 #if ENABLE_PAD == 1
     pad = new gamepadControl();
@@ -77,7 +76,7 @@ int main(int argc, char *argv[])
     // Init NETWORK
     ////////////////////////////////////////////////////////////////////////////
 
-    networkClient *com = NULL;
+    networkClient *com = nullptr;
 
     com = new networkClient();
     if (com)

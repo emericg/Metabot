@@ -8,6 +8,9 @@
 #ifndef METABOT_CONFIG_H
 #define METABOT_CONFIG_H
 
+// Legs count
+#define LEGS            12
+
 // These are the dimension of each legs, in mm
 #define LEG0      35
 #define LEG1      32

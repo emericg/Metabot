@@ -25,6 +25,7 @@ LIBS += -llockdev
 
 # SmartServoFramework sources (if not using it as a library)
 SOURCES += src/SmartServoFramework/src/*.cpp
+HEADERS += src/SmartServoFramework/src/*.h
 
 # Server application sources
 SOURCES += src/main.cpp \

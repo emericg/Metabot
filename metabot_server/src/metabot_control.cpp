@@ -16,9 +16,6 @@
 #include <cmath>
 #include <cstdlib>
 
-//! Adjust this value to control max movement speed
-#define SPEEDCONTROL 1.0
-
 Metabot::Metabot()
 {
     // Init voltage matrix
@@ -30,11 +27,11 @@ Metabot::Metabot()
 
 Metabot::~Metabot()
 {
-    if (dxl != NULL)
+    if (dxl != nullptr)
     {
         dxl->disconnect();
         delete dxl;
-        dxl = NULL;
+        dxl = nullptr;
     }
 }
 
@@ -42,15 +39,15 @@ bool Metabot::setup()
 {
     bool status = false;
 
-    if (dxl != NULL)
+    if (dxl != nullptr)
     {
         dxl->disconnect();
         delete dxl;
-        dxl = NULL;
+        dxl = nullptr;
     }
 
     dxl = new DynamixelSimpleAPI(SERVO_XL);
-    if (dxl != NULL)
+    if (dxl != nullptr)
     {
         std::string device = "auto";
 
@@ -105,7 +102,7 @@ bool Metabot::setup()
 
 void Metabot::setupLimits()
 {
-    if (dxl != NULL)
+    if (dxl != nullptr)
     {
         // Set servos limits
         dxl->setSetting(BROADCAST_ID, REG_P_GAIN, 64);
@@ -113,9 +110,9 @@ void Metabot::setupLimits()
         // Set position limits for each legs
         for (int i = 0; i <= 9; i += 3)
         {
-            dxl->setMinMaxPositions(servos_order[0+i], angle_to_step(-90), angle_to_step(90));
-            dxl->setMinMaxPositions(servos_order[1+i], angle_to_step(-100), angle_to_step(100));
-            dxl->setMinMaxPositions(servos_order[2+i], angle_to_step(-145), angle_to_step(145));
+            dxl->setMinMaxPositions(servos_order[0+i], angle_to_step(-90.0), angle_to_step(90.0));
+            dxl->setMinMaxPositions(servos_order[1+i], angle_to_step(-100.0), angle_to_step(100.0));
+            dxl->setMinMaxPositions(servos_order[2+i], angle_to_step(-145.0), angle_to_step(145.0));
         }
     }
 }
@@ -145,33 +142,49 @@ void Metabot::setupFunctions()
     if (gait == GAIT_TROT)
     {
         // Rising the legs
-        rise.addPoint(0.0, 0.0);
-        rise.addPoint(0.1, 1.0);
-        rise.addPoint(0.4, 1.0);
-        rise.addPoint(0.5, 0.0);
-        rise.addPoint(1.0, 0.0);
+        rise.addPoint(0.0, 1.0);
+        rise.addPoint(0.3, 1.0);
+        rise.addPoint(0.4, 0.0);
+        rise.addPoint(0.9, 0.0);
+        rise.addPoint(1.0, 1.0);
 
         // Taking the leg forward
         step.addPoint(0.0, -0.5);
         step.addPoint(0.1, -0.5);
-        step.addPoint(0.4, 0.5);
+        step.addPoint(0.3, 0.5);
+        step.addPoint(0.5, 0.5);
+        step.addPoint(0.85, -0.5);
         step.addPoint(1.0, -0.5);
+/*
+         // Rising the legs // deprecated
+         rise.addPoint(0.0, 0.0);
+         rise.addPoint(0.1, 1.0);
+         rise.addPoint(0.4, 1.0);
+         rise.addPoint(0.5, 0.0);
+         rise.addPoint(1.0, 0.0);
+
+         // Taking the leg forward // deprecated
+         step.addPoint(0.0, -0.5);
+         step.addPoint(0.1, -0.5);
+         step.addPoint(0.5, 0.5);
+         step.addPoint(1.0, -0.5);
+*/
     }
 }
 
 int Metabot::angle_to_step(float angle)
 {
-    return ((angle / 300.0) * 1024) + 512;
+    return static_cast<int>((angle / 300.0) * 1024.0) + 512;
 }
 
 float Metabot::step_to_angle(int step)
 {
-    return ((step - 512) / 1024.0) * 300.0;
+    return (static_cast<float>(step - 512) / 1024.0) * 300.0;
 }
 
 void Metabot::legColorize(int front_color, int back_color)
 {
-    if (dxl != NULL)
+    if (dxl != nullptr)
     {
         // Front legs
         for (int i = 0; i < 6; i++)
@@ -285,7 +298,7 @@ void Metabot::heightUp()
 {
     if (h >= -155.0)
     {
-        h -= 5;
+        h -= 5.0;
     }
 }
 
@@ -293,17 +306,17 @@ void Metabot::heightDown()
 {
     if (h <= -40.0)
     {
-        h += 5;
+        h += 5.0;
     }
 }
 
 void Metabot::run()
 {
-    if (dxl != NULL)
+    if (dxl != nullptr)
     {
         // Computing average voltage
         {
-            if (idToRead >= 12)
+            if (idToRead >= LEGS)
                 idToRead = 1;
 
             double avg = 0.0;
@@ -312,11 +325,11 @@ void Metabot::run()
             if (volt > 0.0)
                 voltageMatrix[idToRead] = volt;
 
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < LEGS; i++)
             {
                 avg += voltageMatrix[i];
             }
-            voltageAvg = (avg / 12.0);
+            voltageAvg = (avg / static_cast<double>(LEGS));
 
             if (voltageAvg < voltageLimit)
             {
@@ -383,7 +396,7 @@ void Metabot::run()
 
             if (gait == GAIT_WALK)
             {
-                float phases[] = {0.0, 0.5, 0.75, 0.25};
+                float phases[4] = {0.0, 0.5, 0.75, 0.25};
                 legPhase = t + phases[i];
             }
             if (gait == GAIT_TROT)
@@ -407,7 +420,7 @@ void Metabot::run()
             float vx = xOrder*cos(bodyAngle)-yOrder*sin(bodyAngle);
             float vy = xOrder*sin(bodyAngle)+yOrder*cos(bodyAngle);
 
-            float enableRise = (abs(dx)>0.5 || abs(dy)>0.5 || abs(turn)>5) ? 1 : 0;
+            float enableRise = (std::abs(dx)>0.5 || std::abs(dy)>0.5 || std::abs(turn)>5) ? 1 : 0;
 
             // This is the x,y,z order in the referencial of the leg
             x = r + vx;
@@ -429,7 +442,7 @@ void Metabot::run()
 
                 l1[i] = signs[0]*smoothBack*(a + step.getMod(legPhase)*turn);
                 l2[i] = signs[1]*smoothBack*(b);
-                l3[i] = signs[2]*smoothBack*(c - 180*smoothBackLegs);
+                l3[i] = signs[2]*smoothBack*(c - 180.0*smoothBackLegs);
             }
         }
 

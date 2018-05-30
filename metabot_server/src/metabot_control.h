@@ -16,10 +16,20 @@
 
 #include "ctrl.h"
 #include "metabot_function.h"
+#include "metabot_config.h"
+
+
+//! Adjust this value to control max movement speed
+#define SPEEDCONTROL    1.0
+
+//! Gait modes
+#define GAIT_WALK       0
+#define GAIT_TROT       1
+
 
 class Metabot
 {
-    DynamixelSimpleAPI *dxl = NULL;        //!< Servos communication API
+    DynamixelSimpleAPI *dxl = nullptr;      //!< Servos communication API
 
     int angle_to_step(float angle);
     float step_to_angle(int step);
@@ -33,7 +43,7 @@ class Metabot
 
     ////////////////////////////////////////////////////////////////////////////
 
-    unsigned char legMapping[12];
+    unsigned char legMapping[LEGS];
 
     // Output angles
     float l1[4];
@@ -80,13 +90,11 @@ class Metabot
     // Average voltage (dV)
     int idToRead = 0;
     double voltageLimit = 6.5;
-    double voltageAvg = 8;
-    double voltageMatrix[12] = {0};
+    double voltageAvg = 8.0;
+    double voltageMatrix[LEGS] = {0.0};
 
     // Gait selector
-    #define GAIT_WALK       0
-    #define GAIT_TROT       1
-    int gait = GAIT_TROT;
+    int gait = GAIT_WALK;
 
     // Functions
     Function rise;

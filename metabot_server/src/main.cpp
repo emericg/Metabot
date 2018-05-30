@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     // Init network server
     ////////////////////////////////////////////////////////////////////////////
 
-    networkControl *net = NULL;
+    networkControl *net = nullptr;
 
 #if ENABLE_NET == 1
     net = new networkControl();
@@ -79,12 +79,12 @@ int main(int argc, char *argv[])
         TRACE_ERROR(MAIN, "networkControl allocation FATAL ERROR!\n");
         return EXIT_FAILURE;
     }
-#endif
+#endif // ENABLE_NET
 
     // Init KEYBOARD
     ////////////////////////////////////////////////////////////////////////////
 
-    keyboardControl *key = NULL;
+    keyboardControl *key = nullptr;
 
 #if ENABLE_KEY == 1
     key = new keyboardControl();
@@ -96,12 +96,12 @@ int main(int argc, char *argv[])
     {
         TRACE_WARNING(MAIN, "keyboardControl allocation error!\n");
     }
-#endif
+#endif // ENABLE_KEY
 
     // Init GAMEPAD
     ////////////////////////////////////////////////////////////////////////////
 
-    gamepadControl *pad = NULL;
+    gamepadControl *pad = nullptr;
 
 #if ENABLE_PAD == 1
     pad = new gamepadControl();
@@ -113,12 +113,12 @@ int main(int argc, char *argv[])
     {
         TRACE_WARNING(MAIN, "gamepadControl allocation error!\n");
     }
-#endif
+#endif // ENABLE_PAD
 
     // Init Metabot & serial link
     ////////////////////////////////////////////////////////////////////////////
 
-    Metabot *bot = NULL;
+    Metabot *bot = nullptr;
 
 #if ENABLE_BOT == 1
     bot = new Metabot();
@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
         TRACE_ERROR(MAIN, "Metabot allocation FATAL ERROR!\n");
         return EXIT_FAILURE;
     }
-#endif
+#endif // ENABLE_BOT
 
     // Go for it MOTHAFUCKA
     ////////////////////////////////////////////////////////////////////////////
