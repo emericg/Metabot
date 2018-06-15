@@ -25,7 +25,7 @@ contains(CONFIG, EXTERNAL_FRAMEWORK) {
     }
 } else {
     # Use SmartServoFramework sources directly
-    SSF_DIR = /home/emeric/Dev/perso/SmartServoFramework
+    SSF_DIR = ../SmartServoFramework
     INCLUDEPATH += $${SSF_DIR}
     SOURCES += $${SSF_DIR}/SmartServoFramework/C*.cpp
     SOURCES += $${SSF_DIR}/SmartServoFramework/D*.cpp

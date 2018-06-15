@@ -27,8 +27,7 @@ I have set up a shared google doc for my [Raspberry Pi stuffs](https://docs.goog
 
 ### Metabot server
 
-Make sure you checkouted a copy of the [SmartServoFramework](https://github.com/emericg/SmartServoFramework) at ``metabot_server/src/SmartServoFramework``:
-> $ cd metabot_server/src  
+Make sure you checkouted a copy of the [SmartServoFramework](https://github.com/emericg/SmartServoFramework) at the repository root:
 > $ git clone https://github.com/emericg/SmartServoFramework.git  
 
 Then you can build the metabot server:
