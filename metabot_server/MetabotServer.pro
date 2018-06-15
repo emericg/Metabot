@@ -1,10 +1,10 @@
 #-------------------------------------------------
-#
-# Project created by QtCreator 2015-03-08T12:54:16
-#
+# MetaBot Server
 #-------------------------------------------------
 
 TARGET      = MetaBotServer
+
+CONFIG     += c++11
 
 DESTDIR     = build/
 RCC_DIR     = build/
@@ -12,23 +12,35 @@ UI_DIR      = build/
 MOC_DIR     = build/
 OBJECTS_DIR = build/
 
-# Enables C++11
-QMAKE_CXXFLAGS += -std=c++11 -Wno-unused
-QMAKE_LFLAGS   += -Wl,-rpath=/usr/local/lib
+# SmartServoFramework
+contains(CONFIG, EXTERNAL_FRAMEWORK) {
+    unix {
+        INCLUDEPATH += `pkg-config --cflags smartservoframework`
+        LIBS += `pkg-config --libs smartservoframework`
+    }
+    win32 {
+        SSF_DIR = ..
+        INCLUDEPATH += $${SSF_DIR}
+        LIBS += $${SSF_DIR}/build/smartservoframework.lib
+    }
+} else {
+    # Use SmartServoFramework sources directly
+    SSF_DIR = /home/emeric/Dev/perso/SmartServoFramework
+    INCLUDEPATH += $${SSF_DIR}
+    SOURCES += $${SSF_DIR}/SmartServoFramework/C*.cpp
+    SOURCES += $${SSF_DIR}/SmartServoFramework/D*.cpp
+    SOURCES += $${SSF_DIR}/SmartServoFramework/H*.cpp
+    SOURCES += $${SSF_DIR}/SmartServoFramework/S*.cpp
+    HEADERS += $${SSF_DIR}/SmartServoFramework/*.h
+}
 
 # Add SMFL to support gamepads and network
 LIBS += -lsfml-window -lsfml-network
 
-#SmartServoFramework for Dynamixel servos
-#LIBS += -lSmartServoFramework
-LIBS += -llockdev
 
-# SmartServoFramework sources (if not using it as a library)
-SOURCES += src/SmartServoFramework/src/*.cpp
-HEADERS += src/SmartServoFramework/src/*.h
-
-# Server application sources
+# MetaBot Server application sources
 SOURCES += src/main.cpp \
+           src/minitraces.c \
            src/ctrl_network.cpp \
            src/ctrl_gamepad.cpp \
            src/ctrl_keyboard.cpp \
@@ -36,7 +48,8 @@ SOURCES += src/main.cpp \
            src/metabot_kinematic.cpp \
            src/metabot_function.cpp
 
-HEADERS += src/minitraces_conf.h \
+HEADERS += src/minitraces.h \
+           src/minitraces_conf.h \
            src/ctrl.h \
            src/ctrl_network.h \
            src/ctrl_gamepad.h \

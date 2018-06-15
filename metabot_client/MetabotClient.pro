@@ -1,11 +1,11 @@
 #-------------------------------------------------
-#
-# Project created by QtCreator 2015-03-08T12:54:16
-#
+# MetaBot Client
 #-------------------------------------------------
 
 TARGET      = MetaBotClient
 TEMPLATE    = app
+
+CONFIG     += c++11
 CONFIG     += qt
 QT         += core gui widgets
 
@@ -15,13 +15,10 @@ UI_DIR      = build/
 MOC_DIR     = build/
 OBJECTS_DIR = build/
 
-# Enables C++11
-QMAKE_CXXFLAGS += -std=c++11 -Wno-unused
-
 # Add SMFL to support gamepads and network
-LIBS += -lsfml-window -lsfml-system -lsfml-network
+LIBS += -lsfml-window -lsfml-network -lsfml-system
 
-# Client GUI application sources
+# Client application sources
 SOURCES += src/main.cpp \
            src/minitraces.c \
            src/metabotgui.cpp \

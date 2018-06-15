@@ -8,11 +8,8 @@
 #ifndef METABOT_CONTROL_H
 #define METABOT_CONTROL_H
 
-// Use SmartServoFramework as a library
-//#include <SmartServoFramework/DynamixelSimpleAPI.h>
-
-// Use internal SmartServoFramework
-#include "SmartServoFramework/src/DynamixelSimpleAPI.h"
+// SmartServoFramework
+#include <SmartServoFramework/SimpleAPI.h>
 
 #include "ctrl.h"
 #include "metabot_function.h"
