@@ -34,11 +34,11 @@ bool networkClient::autodetect()
     sf::Socket::Status com = socket.connect(ip, port);
     if (com == sf::Socket::Done)
     {
-        TRACE_INFO(COM, "Connection to server '%s @ %i' successfull!\n", ip.toString().c_str(), port);
+        TRACE_INFO(COM, "Connection to server '%s @ %i' successfull!", ip.toString().c_str(), port);
     }
     else
     {
-        TRACE_ERROR(COM, "Connection to server '%s @ %i' failed!\n", ip.toString().c_str(), port);
+        TRACE_ERROR(COM, "Connection to server '%s @ %i' failed!", ip.toString().c_str(), port);
     }
 
     return status;
@@ -88,7 +88,7 @@ bool networkClient::send(MoveitMoveit &move)
     }
     else
     {
-        TRACE_ERROR(COM, "Unable to send data packet!\n");
+        TRACE_ERROR(COM, "Unable to send data packet!");
     }
 
     return status;

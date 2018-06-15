@@ -30,8 +30,8 @@
 // GENERAL SETTINGS
 // =============================================================================
 
-#define ENABLE_TRACES       2   // Enables traces
-#define ENABLE_COLORS       1   // Enable terminal colored output
+#define MINITRACES_LEVEL            2   // Enables traces
+#define MINITRACES_COLORS           1   // Enable terminal colored output
 
 // Advanced debugging features
 #define DEBUG_WITH_TIMESTAMPS       2   //!< 0: disabled, 1: trace tick (in milliseconds), 2: trace time (hh:mm:ss)

@@ -4,12 +4,12 @@
 
 sf::Packet & operator <<(sf::Packet &packet, const MoveitMoveit &m)
 {
-    return packet << m.speed << m.dx << m.dy << m.turn << m.height << m.walk << m.crab << m.inverted;
+    return packet << m.speed << m.dx << m.dy << m.turn << m.height << m.gait << m.crab << m.inverted;
 }
 
 sf::Packet & operator >>(sf::Packet &packet, MoveitMoveit &m)
 {
-    return packet >> m.speed >> m.dx >> m.dy >> m.turn >> m.height >> m.walk >> m.crab >> m.inverted;
+    return packet >> m.speed >> m.dx >> m.dy >> m.turn >> m.height >> m.gait >> m.crab >> m.inverted;
 }
 
 networkControl::networkControl()
@@ -33,12 +33,12 @@ bool networkControl::setup()
     // Bind the listener to a given port
     if (listener.listen(port) == sf::Socket::Done)
     {
-        TRACE_INFO(NET, "networkControl() Server listening on port '%i'\n", port);
+        TRACE_INFO(NET, "networkControl() Server listening on port '%i'", port);
         status = true;
     }
     else
     {
-        TRACE_ERROR(NET, "networkControl() Error when binding listener to port '%i'!\n", port);
+        TRACE_ERROR(NET, "networkControl() Error when binding listener to port '%i'!", port);
     }
 
     return status;
@@ -54,19 +54,19 @@ bool networkControl::autodetect()
         sf::Socket::Status com = listener.accept(client);
         if (com == sf::Socket::Done)
         {
-            TRACE_INFO(NET, "Client connected: '%s @ %i'\n",
+            TRACE_INFO(NET, "Client connected: '%s @ %i'",
                        client.getRemoteAddress().toString().c_str(),
                        client.getRemotePort());
             status = true;
         }
         else if (com == sf::Socket::Error)
         {
-            TRACE_WARNING(NET, "Socket error when trying to connect a client!\n");
+            TRACE_WARNING(NET, "Socket error when trying to connect a client!");
         }
     }/*
     else
     {
-        TRACE_WARNING(NET, "A client is already connected!\n");
+        TRACE_WARNING(NET, "A client is already connected!");
     }*/
 
     return status;
@@ -109,21 +109,21 @@ void networkControl::run(MoveitMoveit &move, bool &exit)
             }
             else if (com == sf::Socket::Disconnected)
             {
-                TRACE_INFO(NET, "Client disconnected: '%s @ %i'\n",
+                TRACE_INFO(NET, "Client disconnected: '%s @ %i'",
                            client.getRemoteAddress().toString().c_str(),
                            client.getRemotePort());
                 client.disconnect();
             }
             else if (com == sf::Socket::Disconnected)
             {
-                TRACE_WARNING(NET, "Socket error while receiving datas. WTF status: '%i'\n", (int)com);
+                TRACE_WARNING(NET, "Socket error while receiving datas. WTF status: '%i'", (int)com);
             }
         }
         while (com == sf::Socket::Done);
 
         if (status == true)
         {
-            TRACE_1(NET, "Received '%i' bytes [%f / %f / %f]\n", packet.getDataSize(), move.dx, move.dy, move.turn);
+            TRACE_1(NET, "Received '%i' bytes [%f / %f / %f]", packet.getDataSize(), move.dx, move.dy, move.turn);
         }
     }
 }

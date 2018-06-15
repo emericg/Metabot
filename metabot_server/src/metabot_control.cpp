@@ -60,7 +60,7 @@ bool Metabot::setup()
             {
                 if (dxl->ping(servos_order[i]) == false)
                 {
-                    TRACE_WARNING(BOT,  "Warning, servo nb:%i / id: %i is missing!\n", i, servos_order[i]);
+                    TRACE_WARNING(BOT,  "Warning, servo nb:%i / id: %i is missing!", i, servos_order[i]);
                     status = false;
 
                     // Disconnecting...

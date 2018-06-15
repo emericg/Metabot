@@ -48,7 +48,7 @@ bool keyboardControl::autodetect()
         size_t pos = 0;
         while ((pos = result.find("\n", pos+1)) != std::string::npos)
         {
-            TRACE_INFO(KEY, "Keyboard #%i is connected\n", keyboardCount);
+            TRACE_INFO(KEY, "Keyboard #%i is connected", keyboardCount);
             keyboardCount++;
             status = true;
         }
@@ -84,21 +84,21 @@ void keyboardControl::run(MoveitMoveit &move, bool &exit)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
         exit = true;
-        TRACE_INFO(KEY, "Escape key pressed. Exiting.\n");
+        TRACE_INFO(KEY, "Escape key pressed. Exiting.");
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        TRACE_1(KEY, "W key pressed.\n");
+        TRACE_1(KEY, "W key pressed.");
 
-        if (move.walk == false)
-            move.walk = true;
+        if (move.gait == false)
+            move.gait = true;
         else
-            move.walk = false;
+            move.gait = false;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
     {
-        TRACE_1(KEY, "C key pressed.\n");
+        TRACE_1(KEY, "C key pressed.");
 
         if (move.crab == false)
             move.crab = true;
@@ -107,7 +107,7 @@ void keyboardControl::run(MoveitMoveit &move, bool &exit)
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
     {
-        TRACE_1(KEY, "I key pressed.\n");
+        TRACE_1(KEY, "I key pressed.");
 
         if (move.inverted == false)
             move.inverted = true;
@@ -162,6 +162,6 @@ void keyboardControl::run(MoveitMoveit &move, bool &exit)
 
     if (move.dx || move.dy || move.turn)
     {
-        TRACE_1(KEY, "DIRECTION (dx: %f) (dy: %f) (turn: %f)\n", move.dx, move.dy, move.turn);
+        TRACE_1(KEY, "DIRECTION (dx: %f) (dy: %f) (turn: %f)", move.dx, move.dy, move.turn);
     }
 }

@@ -61,7 +61,7 @@ bool gamepadControl::autodetect()
                 }
             }
 
-            TRACE_INFO(PAD, "Joystick #%i is connected with %i axis and %i buttons.\n", joystickId, joystickAxis, joystickButtons);
+            TRACE_INFO(PAD, "Joystick #%i is connected with %i axis and %i buttons.", joystickId, joystickAxis, joystickButtons);
             status = true;
             break;
         }
@@ -102,11 +102,11 @@ void gamepadControl::run(MoveitMoveit &move, bool &exit)
         if (sf::Joystick::isButtonPressed(joystickId, 6))
         {
             exit = true;
-            TRACE_INFO(PAD, "SELECT button pressed. Exiting.\n");
+            TRACE_INFO(PAD, "SELECT button pressed. Exiting.");
         }
         if (sf::Joystick::isButtonPressed(joystickId, 0))
         {
-            TRACE_1(PAD, "A button pressed.\n");
+            TRACE_1(PAD, "A button pressed.");
 
             if (move.walk == false)
                 move.walk = true;
@@ -115,7 +115,7 @@ void gamepadControl::run(MoveitMoveit &move, bool &exit)
         }
         if (sf::Joystick::isButtonPressed(joystickId, 1))
         {
-            TRACE_1(PAD, "B button pressed.\n");
+            TRACE_1(PAD, "B button pressed.");
 
             if (move.crab == false)
                 move.crab = true;
@@ -124,7 +124,7 @@ void gamepadControl::run(MoveitMoveit &move, bool &exit)
         }
         if (sf::Joystick::isButtonPressed(joystickId, 3))
         {
-            TRACE_1(PAD, "Y button pressed.\n");
+            TRACE_1(PAD, "Y button pressed.");
 
             if (move.inverted == false)
                 move.inverted = true;
@@ -211,7 +211,7 @@ void gamepadControl::run(MoveitMoveit &move, bool &exit)
 
         if (move.dx || move.dy || move.turn)
         {
-            TRACE_1(PAD, "DIRECTION (dx: %f) (dy: %f) (turn: %f)\n", move.dx, move.dy, move.turn);
+            TRACE_1(PAD, "DIRECTION (dx: %f) (dy: %f) (turn: %f)", move.dx, move.dy, move.turn);
         }
     }
 }

@@ -197,7 +197,10 @@ void MiniTraces_print(const char *file, const int line, const char *func,
         // Trace program identifier
         ////////////////////////////////////////////////////////////////////////
 
-        printf("%s", PID);
+        if (module < BOT)
+            printf("%s", PID_SSF);
+        else
+            printf("%s", PID_BOT);
 
         // Trace header
         ////////////////////////////////////////////////////////////////////////
