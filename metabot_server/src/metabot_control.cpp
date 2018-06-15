@@ -15,6 +15,7 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <unistd.h>
 
 Metabot::Metabot()
 {
@@ -63,8 +64,8 @@ bool Metabot::setup()
                     TRACE_WARNING(BOT,  "Warning, servo nb:%i / id: %i is missing!", i, servos_order[i]);
                     status = false;
 
-                    // Disconnecting...
                     dxl->disconnect();
+                    break;
                 }
             }
 
@@ -77,13 +78,15 @@ bool Metabot::setup()
                 back = (initialOrientation != 0);
                 if (back) smoothBack = 1;
 
-                // Lower serial timer (lower only after the pings)
+                // Lower serial timeouts
                 dxl->serialSetLatency(8);
 
-                // Setup limits
+                // Setup limits / settings / gait functions
                 setupLimits();
-
-                // Initializing positions to 0 ? // Or just read actual values?
+                setupSettings();
+                setupFunctions();
+/*
+                // Initializing positions to 0?
                 for (int i=0; i<12; i++)
                 {
                     dxl->setGoalPosition(servos_order[i], angle_to_step(0.0));
@@ -92,7 +95,7 @@ bool Metabot::setup()
                 {
                     l1[i] = l2[i] = l3[i] = 0.0;
                 }
-
+*/
             }
         }
     }
@@ -104,9 +107,6 @@ void Metabot::setupLimits()
 {
     if (dxl != nullptr)
     {
-        // Set servos limits
-        dxl->setSetting(BROADCAST_ID, REG_P_GAIN, 64);
-
         // Set position limits for each legs
         for (int i = 0; i <= 9; i += 3)
         {
@@ -114,6 +114,75 @@ void Metabot::setupLimits()
             dxl->setMinMaxPositions(servos_order[1+i], angle_to_step(-100.0), angle_to_step(100.0));
             dxl->setMinMaxPositions(servos_order[2+i], angle_to_step(-145.0), angle_to_step(145.0));
         }
+    }
+}
+
+void Metabot::setupSettings()
+{
+    if (dxl != nullptr)
+    {
+        // Set servos settings (broadcast)
+        // (but don't use broadcast on the metabot bus though)
+        //dxl->setSetting(BROADCAST_ID, REG_P_GAIN, 64);
+        //dxl->setGoalSpeed(BROADCAST_ID, 512);
+        //dxl->setSetting(BROADCAST_ID, REG_GOAL_TORQUE, 512);
+
+        // Set servo settings for each legs
+        for (int i = 0; i <= 9; i += 3)
+        {
+            //TRACE_INFO(BOT,  "Settings on leg #%i", i/3);
+
+            // And for each servo of a leg
+            for (int j = 0; j < 3; j++)
+            {
+                //TRACE_INFO(BOT,  "  >  servo #%i", i+j);
+
+                //dxl->setGoalSpeed(servos_order[i+j], 512);
+                //dxl->setSetting(servos_order[i+j], REG_P_GAIN, 64);
+                //dxl->setSetting(servos_order[i+j], REG_GOAL_TORQUE, 512);
+            }
+        }
+    }
+}
+
+void Metabot::setupServoModes(int servoMode)
+{
+    if (dxl != nullptr)
+    {
+        if (servoMode == ACK_REPLY_ALL)
+        {
+            TRACE_INFO(BOT, "setupServoModes(ACK_REPLY_ALL)");
+        }
+        else if (servoMode == ACK_REPLY_READ)
+        {
+            TRACE_INFO(BOT, "setupServoModes(ACK_REPLY_ALL)");
+        }
+        else if (servoMode == ACK_NO_REPLY)
+        {
+            TRACE_WARNING(BOT, "setupServoModes(ACK_NO_REPLY) is not really a good idea... Using default mode instead...");
+            servoMode = ACK_DEFAULT;
+        }
+
+        // Set servos settings (broadcast)
+        // (but don't use broadcast on the metabot bus though)
+        //dxl->setSetting(BROADCAST_ID, REG_STATUS_RETURN_LEVEL, servoMode);
+
+        // Set servo settings for each legs
+        for (int i = 0; i <= 9; i += 3)
+        {
+            // And for each servo of a leg
+            for (int j = 0; j < 3; j++)
+            {
+                //dxl->setSetting(servos_order[i+j], REG_RETURN_DELAY_TIME, 100);
+
+                dxl->setSetting(servos_order[i+j], REG_STATUS_RETURN_LEVEL, servoMode);
+                dxl->reboot(servos_order[i+j]);
+            }
+        }
+
+        dxl->setAckPolicy(servoMode);
+
+        usleep(1000);
     }
 }
 
@@ -155,21 +224,49 @@ void Metabot::setupFunctions()
         step.addPoint(0.5, 0.5);
         step.addPoint(0.85, -0.5);
         step.addPoint(1.0, -0.5);
-/*
-         // Rising the legs // deprecated
-         rise.addPoint(0.0, 0.0);
-         rise.addPoint(0.1, 1.0);
-         rise.addPoint(0.4, 1.0);
-         rise.addPoint(0.5, 0.0);
-         rise.addPoint(1.0, 0.0);
-
-         // Taking the leg forward // deprecated
-         step.addPoint(0.0, -0.5);
-         step.addPoint(0.1, -0.5);
-         step.addPoint(0.5, 0.5);
-         step.addPoint(1.0, -0.5);
-*/
     }
+}
+
+bool Metabot::checkVoltages()
+{
+    bool status = true;
+
+    // Computing average voltage // One servo per "run"
+    {
+        if (idToRead >= LEGS)
+            idToRead = 1;
+
+        double avg = 0.0;
+        double volt = dxl->readCurrentVoltage(legMapping[idToRead]);
+
+        if (volt > 0.0)
+            voltageMatrix[idToRead] = volt;
+
+        for (int i = 0; i < LEGS; i++)
+        {
+            avg += voltageMatrix[i];
+        }
+        voltageAvg = (avg / static_cast<double>(LEGS));
+
+        if (voltageAvg < voltageLimit)
+        {
+            TRACE_WARNING(BOT, "Average servo voltage is %fv, below limit of %fv...", voltageAvg, voltageLimit);
+
+            // Disable torque
+            //dxl_write_word(DXL_BROADCAST, DXL_GOAL_TORQUE, 0); // DEPRECATED
+            dxl->setSetting(BROADCAST_ID, REG_TORQUE_LIMIT, 0); // setGoalTorque()
+
+            // LED blink
+            dxl->setLed(BROADCAST_ID, idToRead<6, LED_RED);
+
+            moving = false;
+            status = false;
+        }
+
+        idToRead++;
+    }
+
+    return status;
 }
 
 int Metabot::angle_to_step(float angle)
@@ -182,20 +279,20 @@ float Metabot::step_to_angle(int step)
     return (static_cast<float>(step - 512) / 1024.0) * 300.0;
 }
 
-void Metabot::legColorize(int front_color, int back_color)
+void Metabot::legColorize(int color_front, int color_back)
 {
     if (dxl != nullptr)
     {
         // Front legs
         for (int i = 0; i < 6; i++)
         {
-            dxl->setLed(legMapping[i], 1, front_color);
+            dxl->setLed(legMapping[i], 1, color_front);
         }
 
         // Back legs
         for (int i = 6; i < 12; i++)
         {
-            dxl->setLed(legMapping[i], 1, back_color);
+            dxl->setLed(legMapping[i], 1, color_back);
         }
     }
 }
@@ -208,7 +305,7 @@ void Metabot::legRemap(int direction)
         legMapping[i] = servos_order[(i + (3 * direction)) % 12];
     }
 
-    // Need to re-colorize legs
+    // Need to re-colorize legs!
     legColorize();
 }
 
@@ -270,28 +367,49 @@ void Metabot::move(MoveitMoveit &move)
     else if (move.height < 0)
         heightDown();
 
-    if (move.walk)
+    if (move.gait != gait)
     {
-        gait = GAIT_WALK;
-        alt = 35.0;
-        legColorize(LED_BLUE, LED_GREEN);
-    }
-    else
-    {
-        gait = GAIT_TROT;
-        alt = 15.0;
-        legColorize(LED_WHITE, LED_GREEN);
+        TRACE_INFO(BOT, "SWITCHING GAIT");
+
+        if (move.gait == GAIT_WALK)
+        {
+            gait = GAIT_WALK;
+            alt = 35.0;
+
+            setupFunctions();
+
+            legColorize(LED_BLUE, LED_GREEN);
+        }
+        else
+        {
+            gait = GAIT_TROT;
+            alt = 15.0;
+
+            setupFunctions();
+
+            legColorize(LED_WHITE, LED_GREEN);
+        }
     }
 
-    if (move.crab)
-        crab = 30;
-    else
-        crab = 0;
+    if (move.crab != crab)
+    {
+        TRACE_INFO(BOT, "SWITCHING CRAB MODE");
 
-    if (move.inverted)
-        backLegs = 1;
-    else
-        backLegs = 0;
+        if (move.crab)
+            crab = 30;
+        else
+            crab = 0;
+    }
+
+    if (move.inverted != backLegs)
+    {
+        TRACE_INFO(BOT, "INVERTING LEGS");
+
+        if (move.inverted)
+            backLegs = 1;
+        else
+            backLegs = 0;
+    }
 }
 
 void Metabot::heightUp()
@@ -314,48 +432,13 @@ void Metabot::run()
 {
     if (dxl != nullptr)
     {
-        // Computing average voltage
-        {
-            if (idToRead >= LEGS)
-                idToRead = 1;
-
-            double avg = 0.0;
-            double volt = dxl->readCurrentVoltage(legMapping[idToRead]);
-
-            if (volt > 0.0)
-                voltageMatrix[idToRead] = volt;
-
-            for (int i = 0; i < LEGS; i++)
-            {
-                avg += voltageMatrix[i];
-            }
-            voltageAvg = (avg / static_cast<double>(LEGS));
-
-            if (voltageAvg < voltageLimit)
-            {
-                TRACE_WARNING(BOT, "Average servo voltage is %fv, below limit of %fv...\n", voltageAvg, voltageLimit);
-
-                // Disable torque
-                //dxl_write_word(DXL_BROADCAST, DXL_GOAL_TORQUE, 0); // DEPRECATED
-                dxl->setSetting(BROADCAST_ID, REG_TORQUE_LIMIT, 0); // setGoalTorque()
-
-                // LED blink
-                dxl->setLed(BROADCAST_ID, idToRead<6, LED_RED);
-
-                moving = false;
-            }
-
-            idToRead++;
-        }
+        checkVoltages();
 
         if (moving == false)
         {
             t = 0.0;
             return;
         }
-
-        // Setting up functions
-        setupFunctions();
 
         // Incrementing and normalizing t
         t += freq * 0.02;

@@ -8,6 +8,16 @@
 #ifndef METABOT_CONFIG_H
 #define METABOT_CONFIG_H
 
+// Adjust this value to control max movement speed
+#define SPEEDCONTROL    1.0
+
+// Gait modes
+#define GAIT_WALK       0
+#define GAIT_TROT       1
+
+// Default gait mode
+#define GAIT_DEFAULT    GAIT_WALK
+
 // Legs count
 #define LEGS            12
 

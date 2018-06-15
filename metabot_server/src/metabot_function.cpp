@@ -91,6 +91,3 @@ double Function::getMod(double x)
 
     return get(x);
 }
-
-#undef POINT_X
-#undef POINT_Y

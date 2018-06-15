@@ -1,6 +1,8 @@
 #ifndef CTRL_H
 #define CTRL_H
 
+#include "metabot_config.h"
+
 struct MoveitMoveit
 {
     float speed = 1;
@@ -9,7 +11,7 @@ struct MoveitMoveit
     float turn = 0;
     float height = 0;
 
-    bool walk = false;
+    bool gait = GAIT_DEFAULT;
     bool crab = false;
     bool inverted = false;
 };

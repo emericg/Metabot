@@ -15,18 +15,10 @@
 #include "metabot_function.h"
 #include "metabot_config.h"
 
-
-//! Adjust this value to control max movement speed
-#define SPEEDCONTROL    1.0
-
-//! Gait modes
-#define GAIT_WALK       0
-#define GAIT_TROT       1
-
-
 class Metabot
 {
-    DynamixelSimpleAPI *dxl = nullptr;      //!< Servos communication API
+    //! Servos communication API
+    DynamixelSimpleAPI *dxl = nullptr;
 
     int angle_to_step(float angle);
     float step_to_angle(int step);
@@ -36,7 +28,11 @@ class Metabot
      * or the min/max limits here.
      */
     void setupLimits();
+    void setupSettings();
+    void setupServoModes(int servoMode);
     void setupFunctions();
+
+    bool checkVoltages();
 
     ////////////////////////////////////////////////////////////////////////////
 
@@ -90,8 +86,8 @@ class Metabot
     double voltageAvg = 8.0;
     double voltageMatrix[LEGS] = {0.0};
 
-    // Gait selector
-    int gait = GAIT_WALK;
+    // Gait mode selector
+    int gait = GAIT_DEFAULT;
 
     // Functions
     Function rise;
@@ -136,7 +132,7 @@ public:
     /*!
      * Colorizes the two front legs
      */
-    void legColorize(int color1 = LED_WHITE, int color2 = LED_GREEN);
+    void legColorize(int color_front = LED_WHITE, int color_back = LED_GREEN);
 
     void toggleBackLegs();
     void toggleCrabMode();

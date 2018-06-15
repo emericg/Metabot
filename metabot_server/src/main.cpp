@@ -53,8 +53,6 @@ int main(int argc, char *argv[])
 {
     main_infos();
 
-    bool status = true;
-
     // Init network server
     ////////////////////////////////////////////////////////////////////////////
 
@@ -151,10 +149,10 @@ int main(int argc, char *argv[])
     double loopDuration  = 1000.0 / loopFrequency;
     std::chrono::time_point<std::chrono::system_clock> start, end;
 
-    while (true)
+    bool exit = false;
+    while (exit == false)
     {
         start = std::chrono::system_clock::now(); // Loop timer
-        bool exit = false;
 
         // Metabot control
         {
@@ -180,11 +178,6 @@ int main(int argc, char *argv[])
             {
                 // Read input from gamepads (overwrite keayboar & network control)
                 pad->run(move, exit);
-            }
-
-            if (exit)
-            {
-                break;
             }
 
             if (bot)
@@ -216,6 +209,9 @@ int main(int argc, char *argv[])
             std::this_thread::sleep_for(waittime);
         }
     }
+
+    delete pad;
+    delete bot;
 
     TRACE_INFO(MAIN, "MetaBotServer exiting normally!");
     return EXIT_SUCCESS;
