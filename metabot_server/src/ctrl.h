@@ -3,13 +3,13 @@
 
 #include "metabot_config.h"
 
-struct MoveitMoveit
+struct RobotStatus
 {
-    float speed = 1;
-    float dx = 0;
-    float dy = 0;
-    float turn = 0;
-    float height = 0;
+    float speed = SPEEDCONTROL;
+    float dx = 0.0;
+    float dy = 0.0;
+    float turn = 0.0;
+    float height = 0.0;
 
     bool gait = GAIT_DEFAULT;
     bool crab = false;
@@ -25,7 +25,7 @@ public:
     virtual bool setup() = 0;
     virtual bool autodetect() = 0;
     virtual bool isConnected() = 0;
-    virtual void run(MoveitMoveit &move, bool &exit) = 0;
+    virtual void run(RobotStatus &status, bool &exit) = 0;
 };
 */
 #endif // CTRL_H

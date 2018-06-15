@@ -13,7 +13,7 @@ public:
 
     bool autodetect();
     bool isConnected();
-    void run(MoveitMoveit &move, bool &exit);
+    void run(RobotStatus &rs, bool &exit);
 };
 
 

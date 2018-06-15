@@ -82,7 +82,7 @@ bool gamepadControl::isConnected()
     return status;
 }
 
-void gamepadControl::run(MoveitMoveit &move, bool &exit)
+void gamepadControl::run(RobotStatus &move, bool &exit)
 {
     // Poll events
     sf::Joystick::update();

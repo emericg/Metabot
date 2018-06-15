@@ -22,7 +22,7 @@ Metabot::Metabot()
     // Init voltage matrix
     for (int i = 0; i < 12; i++)
     {
-        voltageMatrix[i] = 8;
+        voltageMatrix[i] = 8.0;
     }
 }
 
@@ -227,12 +227,13 @@ void Metabot::setupFunctions()
     }
 }
 
-bool Metabot::checkVoltages()
+bool Metabot::voltageTick()
 {
     bool status = true;
 
-    // Computing average voltage // One servo per "run"
+    if (dxl != nullptr)
     {
+        // Computing average voltage // One servo per "run"
         if (idToRead >= LEGS)
             idToRead = 1;
 
@@ -349,34 +350,32 @@ void Metabot::toggleGait()
     }
 }
 
-void Metabot::move(float x, float y, float t)
+void Metabot::forward(float x, float y, float t)
 {
     dx = x * SPEEDCONTROL;
     dy = y * SPEEDCONTROL;
     turn = t * SPEEDCONTROL;
 }
 
-void Metabot::move(MoveitMoveit &move)
+void Metabot::forward(RobotStatus &robotStatus)
 {
-    dx = move.dx * SPEEDCONTROL;
-    dy = move.dy * SPEEDCONTROL;
-    turn = move.turn * SPEEDCONTROL;
+    dx = robotStatus.dx * SPEEDCONTROL;
+    dy = robotStatus.dy * SPEEDCONTROL;
+    turn = robotStatus.turn * SPEEDCONTROL;
 
-    if (move.height > 0)
+    if (robotStatus.height > 0)
         heightUp();
-    else if (move.height < 0)
+    else if (robotStatus.height < 0)
         heightDown();
 
-    if (move.gait != gait)
+    if (robotStatus.gait != gait)
     {
         TRACE_INFO(BOT, "SWITCHING GAIT");
 
-        if (move.gait == GAIT_WALK)
+        if (robotStatus.gait == GAIT_WALK)
         {
             gait = GAIT_WALK;
             alt = 35.0;
-
-            setupFunctions();
 
             legColorize(LED_BLUE, LED_GREEN);
         }
@@ -385,27 +384,27 @@ void Metabot::move(MoveitMoveit &move)
             gait = GAIT_TROT;
             alt = 15.0;
 
-            setupFunctions();
-
             legColorize(LED_WHITE, LED_GREEN);
         }
+
+        setupFunctions();
     }
 
-    if (move.crab != crab)
+    if (robotStatus.crab != crab)
     {
         TRACE_INFO(BOT, "SWITCHING CRAB MODE");
 
-        if (move.crab)
-            crab = 30;
+        if (robotStatus.crab)
+            crab = 30.0;
         else
-            crab = 0;
+            crab = 0.0;
     }
 
-    if (move.inverted != backLegs)
+    if (robotStatus.inverted != backLegs)
     {
         TRACE_INFO(BOT, "INVERTING LEGS");
 
-        if (move.inverted)
+        if (robotStatus.inverted)
             backLegs = 1;
         else
             backLegs = 0;
@@ -428,11 +427,11 @@ void Metabot::heightDown()
     }
 }
 
-void Metabot::run()
+void Metabot::move()
 {
     if (dxl != nullptr)
     {
-        checkVoltages();
+        voltageTick();
 
         if (moving == false)
         {
@@ -475,7 +474,7 @@ void Metabot::run()
             bool group = ((i&1)==1);
 
             // This defines the phase of the gait
-            float legPhase = 0;
+            float legPhase = 0.0;
 
             if (gait == GAIT_WALK)
             {
@@ -489,11 +488,11 @@ void Metabot::run()
 
             float x, y, z, a, b, c;
 
-            // Computing the order in the referencial of the body
+            // Compute the order in the referencial of the body
             float xOrder = step.getMod(legPhase)*dx;
             float yOrder = step.getMod(legPhase)*dy;
 
-            // Computing the order in the referencial of the leg
+            // Compute the order in the referencial of the leg
             float bodyAngle = -(i*M_PI/2.0 - (M_PI/4.0))*smoothBack;
             if (group) {
                 bodyAngle -= DEG2RAD(crab*(-smoothBack));
@@ -511,8 +510,10 @@ void Metabot::run()
             z = h + rise.getMod(legPhase)*alt*enableRise;
             if (i < 2) z += frontH;
 
-            // Computing inverse kinematics
-            if (computeIK(x, y, z, &a, &b, &c, LEG1, LEG2, backLegs ? LEG3_b : LEG3_a))
+            // Compute inverse kinematics
+            if (computeIK(x, y, z,
+                          &a, &b, &c,
+                          LEG1, LEG2, backLegs ? LEG3_b : LEG3_a))
             {
                 if (group)
                 {
@@ -529,7 +530,7 @@ void Metabot::run()
             }
         }
 
-        // Sending order to servos
+        // Send order to servos
         dxl->setGoalPosition(legMapping[0], angle_to_step(l1[0]));
         dxl->setGoalPosition(legMapping[3], angle_to_step(l1[1]));
         dxl->setGoalPosition(legMapping[6], angle_to_step(l1[2]));

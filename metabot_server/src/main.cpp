@@ -141,10 +141,11 @@ int main(int argc, char *argv[])
     }
 #endif // ENABLE_BOT
 
-    // Go for it MOTHAFUCKA
+    // Start moving around!
     ////////////////////////////////////////////////////////////////////////////
 
-    MoveitMoveit move;
+    RobotStatus rs;
+
     double loopFrequency = 30.0;
     double loopDuration  = 1000.0 / loopFrequency;
     std::chrono::time_point<std::chrono::system_clock> start, end;
@@ -156,37 +157,37 @@ int main(int argc, char *argv[])
 
         // Metabot control
         {
-            // Reset direct input, not states (walk, crab and inverted)
-            move.dx = 0;
-            move.dy = 0;
-            move.turn = 0;
-            move.height = 0;
+            // Reset direct inputs, not states (walk, crab and inverted)
+            rs.dx = 0.0;
+            rs.dy = 0.0;
+            rs.turn = 0.0;
+            rs.height = 0.0;
 
             if (net)
             {
-                // Read input from network client
-                net->run(move, exit);
+                // Read inputs from network client
+                net->run(rs, exit);
             }
 
             if (key)
             {
-                // Read input from keyboard (overwrite network control)
-                key->run(move, exit);
+                // Read inputs from keyboard (overwrite network control)
+                key->run(rs, exit);
             }
 
             if (pad)
             {
-                // Read input from gamepads (overwrite keayboar & network control)
-                pad->run(move, exit);
+                // Read inputs from gamepads (overwrite keyboard & network control)
+                pad->run(rs, exit);
             }
 
             if (bot)
             {
                 // Forward orders to the metabot
-                bot->move(move);
+                bot->forward(rs);
 
-                // Execute movments
-                bot->run();
+                // Execute movements
+                bot->move();
             }
         }
 

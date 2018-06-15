@@ -18,7 +18,7 @@ public:
     bool setup();
     bool autodetect();
     bool isConnected();
-    void run(MoveitMoveit &move, bool &exit);
+    void run(RobotStatus &rs, bool &exit);
 };
 
 #endif // CTRL_NETWORK_H

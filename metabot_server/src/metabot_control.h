@@ -32,7 +32,7 @@ class Metabot
     void setupServoModes(int servoMode);
     void setupFunctions();
 
-    bool checkVoltages();
+    bool voltageTick();
 
     ////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +45,7 @@ class Metabot
 
     ////////////////////////////////////////////////////////////////////////////
 
-    // Enabling/disabling metabot movments
+    // Enabling/disabling metabot movements
     bool moving = true;
 
     // Legs backward mode
@@ -87,7 +87,7 @@ class Metabot
     double voltageMatrix[LEGS] = {0.0};
 
     // Gait mode selector
-    int gait = GAIT_DEFAULT;
+    bool gait = GAIT_DEFAULT;
 
     // Functions
     Function rise;
@@ -102,7 +102,7 @@ public:
     /*!
      * Computing the servo values
      */
-    void run();
+    void move();
 
     /*!
      * \brief Transmit a move order to the Metabot.
@@ -114,15 +114,16 @@ public:
      * backLegs: using legs backward (the small part that is usually up comes below)
      * back: using the robot back, you can then return the robot and using it in the other side, if your electronics allow that
      * freq: the frequency of the walk, default is 2 (for 2hz, or 2 cycles per second)
+     *
      * You can change the posture of the robot, BE CAREFUL, this can really mess up if you pass too big values here:
      * h: the height of the legs when stopped, default to -70mm
      * r: the radius of the legs (distance to between arm of first servo of each leg and arm of the last servo) default to 80mm
      */
-    void move(float x, float y, float t);
+    void forward(float x, float y, float t);
     void heightUp();
     void heightDown();
 
-    void move(MoveitMoveit &move);
+    void forward(RobotStatus &robotStatus);
 
     /*!
      * Changes the mapping of the leg, the input is the direction (between 0 and 3)

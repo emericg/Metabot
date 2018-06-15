@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
     return a.exec();
 */
-    MoveitMoveit move;
+    RobotStatus move;
 
     // Init KEYBOARD
     ////////////////////////////////////////////////////////////////////////////

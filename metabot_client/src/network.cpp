@@ -2,12 +2,12 @@
 #include "network.h"
 #include "minitraces.h"
 
-sf::Packet & operator <<(sf::Packet &packet, const MoveitMoveit &m)
+sf::Packet & operator <<(sf::Packet &packet, const RobotStatus &m)
 {
     return packet << m.speed << m.dx << m.dy << m.turn << m.height << m.walk << m.crab << m.inverted;
 }
 
-sf::Packet & operator >>(sf::Packet &packet, MoveitMoveit &m)
+sf::Packet & operator >>(sf::Packet &packet, RobotStatus &m)
 {
     return packet >> m.speed >> m.dx >> m.dy >> m.turn >> m.height >> m.walk >> m.crab >> m.inverted;
 }
@@ -56,7 +56,7 @@ bool networkClient::isConnected()
     return status;
 }
 
-bool networkClient::send(MoveitMoveit &move)
+bool networkClient::send(RobotStatus &move)
 {
     bool status = false;
 

@@ -15,7 +15,7 @@ public:
 
     bool autodetect();
     bool isConnected();
-    void run(MoveitMoveit &move, bool &exit);
+    void run(RobotStatus &move, bool &exit);
 };
 
 #endif // CTRL_GAMEPAD_H

@@ -70,7 +70,7 @@ bool keyboardControl::isConnected()
     return status;
 }
 
-void keyboardControl::run(MoveitMoveit &move, bool &exit)
+void keyboardControl::run(RobotStatus &move, bool &exit)
 {
     // Keyboard connected?
     if (isConnected() == false)

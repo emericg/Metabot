@@ -82,7 +82,7 @@ bool gamepadControl::isConnected()
     return status;
 }
 
-void gamepadControl::run(MoveitMoveit &move, bool &exit)
+void gamepadControl::run(RobotStatus &rs, bool &exit)
 {
     // Poll events
     sf::Joystick::update();
@@ -108,28 +108,28 @@ void gamepadControl::run(MoveitMoveit &move, bool &exit)
         {
             TRACE_1(PAD, "A button pressed.");
 
-            if (move.gait == false)
-                move.gait = true;
+            if (rs.gait == false)
+                rs.gait = true;
             else
-                move.gait = false;
+                rs.gait = false;
         }
         if (sf::Joystick::isButtonPressed(joystickId, 1))
         {
             TRACE_1(PAD, "B button pressed.");
 
-            if (move.crab == false)
-                move.crab = true;
+            if (rs.crab == false)
+                rs.crab = true;
             else
-                move.crab = false;
+                rs.crab = false;
         }
         if (sf::Joystick::isButtonPressed(joystickId, 3))
         {
             TRACE_1(PAD, "Y button pressed.");
 
-            if (move.inverted == false)
-                move.inverted = true;
+            if (rs.inverted == false)
+                rs.inverted = true;
             else
-                move.inverted = false;
+                rs.inverted = false;
         }
 
         // Triggers
@@ -147,11 +147,11 @@ void gamepadControl::run(MoveitMoveit &move, bool &exit)
         // Metabot height control
         if (pad_y == -100)
         {
-            move.height = 1;
+            rs.height = 1;
         }
         else if (pad_y == 100)
         {
-            move.height = -1;
+            rs.height = -1;
         }
 
         // Sticks
@@ -165,11 +165,11 @@ void gamepadControl::run(MoveitMoveit &move, bool &exit)
         // Metabot translation control
         if (u > 50.0 || u < -50.0) // dead zone ?
         {
-            move.dy = u;
+            rs.dy = u;
         }
         if (v > 50.0 || v < -50.0) // dead zone ?
         {
-            move.dx = -v;
+            rs.dx = -v;
         }
 
         // Metabot direction control
@@ -179,39 +179,39 @@ void gamepadControl::run(MoveitMoveit &move, bool &exit)
             float ang = std::atan2(x, y) * 57.2957795 + 180.0;
 
             if (ang >= 270)
-                move.turn = -(ang - 360);
+                rs.turn = -(ang - 360);
             else if (ang >= 180)
-                move.turn = ang - 180;
+                rs.turn = ang - 180;
             else if (ang >= 90)
-                move.turn = ang - 180;
+                rs.turn = ang - 180;
             else
-                move.turn = -ang;
+                rs.turn = -ang;
 
             // forward/backward dead zone ?
-            if (move.turn < 28.0 && move.turn > -28.0)
-                move.turn = 0;
+            if (rs.turn < 28.0 && rs.turn > -28.0)
+                rs.turn = 0;
 
-            move.dx = -y;
+            rs.dx = -y;
 
             // turn zone
             if (ang < 110.0 && ang > 70.0)
             {
-                move.turn = -60; // rotate to the left
-                move.dx = 0;
+                rs.turn = -60; // rotate to the left
+                rs.dx = 0;
             }
             if (ang < 290.0 && ang > 250.0)
             {
-                move.turn = 60; // rotate to the right
-                move.dx = 0;
+                rs.turn = 60; // rotate to the right
+                rs.dx = 0;
             }
         }
 
         // Recap
         ////////////////////////////////////////////////////////////////////////
 
-        if (move.dx || move.dy || move.turn)
+        if (rs.dx || rs.dy || rs.turn)
         {
-            TRACE_1(PAD, "DIRECTION (dx: %f) (dy: %f) (turn: %f)", move.dx, move.dy, move.turn);
+            TRACE_1(PAD, "DIRECTION (dx: %f) (dy: %f) (turn: %f)", rs.dx, rs.dy, rs.turn);
         }
     }
 }

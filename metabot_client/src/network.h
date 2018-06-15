@@ -9,7 +9,7 @@ class networkClient
     unsigned port = 5555;
     sf::TcpSocket socket;
 
-    MoveitMoveit last;
+    RobotStatus last;
 
 public:
     networkClient();
@@ -18,7 +18,7 @@ public:
     bool autodetect();
     bool isConnected();
 
-    bool send(MoveitMoveit &move);
+    bool send(RobotStatus &move);
     void tick();
 };
 

@@ -70,7 +70,7 @@ bool keyboardControl::isConnected()
     return status;
 }
 
-void keyboardControl::run(MoveitMoveit &move, bool &exit)
+void keyboardControl::run(RobotStatus &rs, bool &exit)
 {
     // Keyboard connected?
     if (isConnected() == false)
@@ -79,7 +79,7 @@ void keyboardControl::run(MoveitMoveit &move, bool &exit)
     }
 
     // Key
-    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     {
@@ -91,77 +91,77 @@ void keyboardControl::run(MoveitMoveit &move, bool &exit)
     {
         TRACE_1(KEY, "W key pressed.");
 
-        if (move.gait == false)
-            move.gait = true;
+        if (rs.gait == false)
+            rs.gait = true;
         else
-            move.gait = false;
+            rs.gait = false;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
     {
         TRACE_1(KEY, "C key pressed.");
 
-        if (move.crab == false)
-            move.crab = true;
+        if (rs.crab == false)
+            rs.crab = true;
         else
-            move.crab = false;
+            rs.crab = false;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::I))
     {
         TRACE_1(KEY, "I key pressed.");
 
-        if (move.inverted == false)
-            move.inverted = true;
+        if (rs.inverted == false)
+            rs.inverted = true;
         else
-            move.inverted = false;
+            rs.inverted = false;
     }
 
     // Keypad
-    ////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
 
     // Metabot height control
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp))
     {
-        move.height = 1;
+        rs.height = 1;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown))
     {
-        move.height = -1;
+        rs.height = -1;
     }
 
     // Metabot translation control
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad8))
     {
-        move.dx = 100;
+        rs.dx = 100;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2))
     {
-        move.dx = -100;
+        rs.dx = -100;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad6))
     {
-        move.dy = 100;
+        rs.dy = 100;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4))
     {
-        move.dy = -100;
+        rs.dy = -100;
     }
 
     // Metabot rotation control
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad9))
     {
-        move.turn = 45;
+        rs.turn = 45;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad7))
     {
-        move.turn = -45;
+        rs.turn = -45;
     }
 
     // Recap
     ////////////////////////////////////////////////////////////////////////////
 
-    if (move.dx || move.dy || move.turn)
+    if (rs.dx || rs.dy || rs.turn)
     {
-        TRACE_1(KEY, "DIRECTION (dx: %f) (dy: %f) (turn: %f)", move.dx, move.dy, move.turn);
+        TRACE_1(KEY, "DIRECTION (dx: %f) (dy: %f) (turn: %f)", rs.dx, rs.dy, rs.turn);
     }
 }

@@ -1,7 +1,7 @@
 #ifndef CTRL_H
 #define CTRL_H
 
-struct MoveitMoveit
+struct RobotStatus
 {
     float speed = 1;
     float dx = 0;

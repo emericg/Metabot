@@ -9,6 +9,7 @@
 #define METABOT_CONFIG_H
 
 // Adjust this value to control max movement speed
+// More than 1.5 and the metabot may explode...
 #define SPEEDCONTROL    1.0
 
 // Gait modes
@@ -19,14 +20,14 @@
 #define GAIT_DEFAULT    GAIT_WALK
 
 // Legs count
-#define LEGS            12
+#define LEGS    12
 
 // These are the dimension of each legs, in mm
-#define LEG0      35
-#define LEG1      32
-#define LEG2      60
-#define LEG3_a    85
-#define LEG3_b    35
+#define LEG0    35
+#define LEG1    32
+#define LEG2    60
+#define LEG3_a  85
+#define LEG3_b  35
 
 /*!
  * Servos are supposed to be like this:
@@ -42,14 +43,10 @@
  * But you can change these IDs using the below array:
  */
 static int servos_order[] = {
-    // First leg
-    1, 2, 3,
-    // Second leg
-    4, 5, 6,
-    // Third leg
-    7, 8, 9,
-    // Fourth leg
-    10, 11, 12
+    1, 2, 3,    // First leg
+    4, 5, 6,    // Second leg
+    7, 8, 9,    // Third leg
+    10, 11, 12  // Fourth leg
 };
 
 /*!

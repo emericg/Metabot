@@ -2,12 +2,12 @@
 #include "ctrl_network.h"
 #include "minitraces.h"
 
-sf::Packet & operator <<(sf::Packet &packet, const MoveitMoveit &m)
+sf::Packet & operator <<(sf::Packet &packet, const RobotStatus &m)
 {
     return packet << m.speed << m.dx << m.dy << m.turn << m.height << m.gait << m.crab << m.inverted;
 }
 
-sf::Packet & operator >>(sf::Packet &packet, MoveitMoveit &m)
+sf::Packet & operator >>(sf::Packet &packet, RobotStatus &m)
 {
     return packet >> m.speed >> m.dx >> m.dy >> m.turn >> m.height >> m.gait >> m.crab >> m.inverted;
 }
@@ -85,7 +85,7 @@ bool networkControl::isConnected()
     return status;
 }
 
-void networkControl::run(MoveitMoveit &move, bool &exit)
+void networkControl::run(RobotStatus &rs, bool &exit)
 {
     bool status = false;
 
@@ -104,7 +104,7 @@ void networkControl::run(MoveitMoveit &move, bool &exit)
 
             if (com == sf::Socket::Done)
             {
-                packet >> move;
+                packet >> rs;
                 status = true;
             }
             else if (com == sf::Socket::Disconnected)
@@ -123,7 +123,7 @@ void networkControl::run(MoveitMoveit &move, bool &exit)
 
         if (status == true)
         {
-            TRACE_1(NET, "Received '%i' bytes [%f / %f / %f]", packet.getDataSize(), move.dx, move.dy, move.turn);
+            TRACE_1(NET, "Received '%i' bytes [%f / %f / %f]", packet.getDataSize(), rs.dx, rs.dy, rs.turn);
         }
     }
 }
