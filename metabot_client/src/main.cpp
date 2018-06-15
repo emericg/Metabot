@@ -1,10 +1,10 @@
+#include "../metabot_server/src/minitraces.h"
+#include "../metabot_server/src/ctrl_gamepad.h"
+#include "../metabot_server/src/ctrl_keyboard.h"
 
-#include "ctrl_gamepad.h"
-#include "ctrl_keyboard.h"
 #include "network.h"
-#include "minitraces.h"
-
 #include "metabotgui.h"
+
 #include <QApplication>
 
 #include <chrono>

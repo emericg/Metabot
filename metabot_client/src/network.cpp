@@ -1,6 +1,6 @@
-
 #include "network.h"
-#include "minitraces.h"
+
+#include "../metabot_common/minitraces.h"
 
 sf::Packet & operator <<(sf::Packet &packet, const RobotStatus &m)
 {
@@ -34,11 +34,11 @@ bool networkClient::autodetect()
     sf::Socket::Status com = socket.connect(ip, port);
     if (com == sf::Socket::Done)
     {
-        TRACE_INFO(COM, "Connection to server '%s @ %i' successfull!", ip.toString().c_str(), port);
+        TRACE_INFO(NET, "Connection to server '%s @ %i' successfull!", ip.toString().c_str(), port);
     }
     else
     {
-        TRACE_ERROR(COM, "Connection to server '%s @ %i' failed!", ip.toString().c_str(), port);
+        TRACE_ERROR(NET, "Connection to server '%s @ %i' failed!", ip.toString().c_str(), port);
     }
 
     return status;
@@ -88,7 +88,7 @@ bool networkClient::send(RobotStatus &move)
     }
     else
     {
-        TRACE_ERROR(COM, "Unable to send data packet!");
+        TRACE_ERROR(NET, "Unable to send data packet!");
     }
 
     return status;

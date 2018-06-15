@@ -1,7 +1,8 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
-#include "ctrl.h"
+#include "../metabot_server/src/ctrl.h"
+
 #include <SFML/Network.hpp>
 
 class networkClient

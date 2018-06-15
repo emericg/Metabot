@@ -20,17 +20,18 @@ LIBS += -lsfml-window -lsfml-network -lsfml-system
 
 # Client application sources
 SOURCES += src/main.cpp \
-           src/minitraces.c \
            src/metabotgui.cpp \
            src/network.cpp \
-           src/ctrl_gamepad.cpp \
-           src/ctrl_keyboard.cpp
+           ../metabot_server/src/minitraces.c \
+           ../metabot_server/src/ctrl_gamepad.cpp \
+           ../metabot_server/src/ctrl_keyboard.cpp
 
-HEADERS += src/minitraces.h \
-           src/minitraces_conf.h \
-           src/metabotgui.h \
+HEADERS += src/metabotgui.h \
            src/network.h \
-           src/ctrl_gamepad.h \
-           src/ctrl_keyboard.h
+           ../metabot_server/src/minitraces.h \
+           ../metabot_server/src/minitraces_conf.h \
+           ../metabot_server/src/ctrl.h \
+           ../metabot_server/src/ctrl_gamepad.h \
+           ../metabot_server/src/ctrl_keyboard.h
 
 FORMS   += ui/metabotgui.ui
