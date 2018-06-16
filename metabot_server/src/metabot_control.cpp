@@ -390,7 +390,7 @@ void Metabot::forward(RobotStatus &robotStatus)
         setupFunctions();
     }
 
-    if (robotStatus.crab != crab)
+    if (robotStatus.crab == true && crab != 30.0)
     {
         TRACE_INFO(BOT, "SWITCHING CRAB MODE");
 

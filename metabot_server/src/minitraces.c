@@ -249,3 +249,11 @@ void MiniTraces_print(const char *file, const int line, const char *func,
 }
 
 /* ************************************************************************** */
+
+void MiniTraces_flush()
+{
+    // Force terminal synchronisazion (very slow!)
+    fflush(stdout);
+}
+
+/* ************************************************************************** */

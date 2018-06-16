@@ -109,7 +109,7 @@ void networkControl::run(RobotStatus &rs, bool &exit)
             }
             else if (com == sf::Socket::Disconnected)
             {
-                TRACE_INFO(NET, "Client disconnected: '%s @ %i'",
+                TRACE_INFO(NET, "Client disconnected: '%s @ %u'",
                            client.getRemoteAddress().toString().c_str(),
                            client.getRemotePort());
                 client.disconnect();

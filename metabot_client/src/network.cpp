@@ -1,15 +1,15 @@
 #include "network.h"
 
-#include "../metabot_common/minitraces.h"
+#include "../metabot_server/src/minitraces.h"
 
 sf::Packet & operator <<(sf::Packet &packet, const RobotStatus &m)
 {
-    return packet << m.speed << m.dx << m.dy << m.turn << m.height << m.walk << m.crab << m.inverted;
+    return packet << m.speed << m.dx << m.dy << m.turn << m.height << m.gait << m.crab << m.inverted;
 }
 
 sf::Packet & operator >>(sf::Packet &packet, RobotStatus &m)
 {
-    return packet >> m.speed >> m.dx >> m.dy >> m.turn >> m.height >> m.walk >> m.crab >> m.inverted;
+    return packet >> m.speed >> m.dx >> m.dy >> m.turn >> m.height >> m.gait >> m.crab >> m.inverted;
 }
 
 networkClient::networkClient()
@@ -34,6 +34,7 @@ bool networkClient::autodetect()
     sf::Socket::Status com = socket.connect(ip, port);
     if (com == sf::Socket::Done)
     {
+        status = true;
         TRACE_INFO(NET, "Connection to server '%s @ %i' successfull!", ip.toString().c_str(), port);
     }
     else
@@ -62,7 +63,7 @@ bool networkClient::send(RobotStatus &move)
 
     if (move.dx == 0 && move.dy == 0 && move.turn == 0 && move.height == 0)
     {
-        if (move.walk == last.walk && move.crab == last.crab && move.inverted == last.inverted)
+        if (move.gait == last.gait && move.crab == last.crab && move.inverted == last.inverted)
         {
             return status;
         }

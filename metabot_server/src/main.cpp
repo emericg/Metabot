@@ -68,15 +68,18 @@ int main(int argc, char *argv[])
         }
         else
         {
+            delete net;
+            net = nullptr;
             TRACE_ERROR(MAIN, "networkControl setup FATAL ERROR!");
-            return EXIT_FAILURE;
         }
     }
     else
     {
         TRACE_ERROR(MAIN, "networkControl allocation FATAL ERROR!");
-        return EXIT_FAILURE;
     }
+
+    if (!net)
+        return EXIT_FAILURE;
 #endif // ENABLE_NET
 
     // Init KEYBOARD
@@ -128,89 +131,96 @@ int main(int argc, char *argv[])
         }
         else
         {
-            TRACE_ERROR(MAIN, "Metabot connection FATAL ERROR!");
-            delete pad;
             delete bot;
-            return EXIT_FAILURE;
+            bot = nullptr;
+            TRACE_ERROR(MAIN, "Metabot connection FATAL ERROR!");
         }
     }
     else
     {
         TRACE_ERROR(MAIN, "Metabot allocation FATAL ERROR!");
-        return EXIT_FAILURE;
     }
 #endif // ENABLE_BOT
+
+    MiniTraces_flush();
 
     // Start moving around!
     ////////////////////////////////////////////////////////////////////////////
 
-    RobotStatus rs;
-
-    double loopFrequency = 30.0;
-    double loopDuration  = 1000.0 / loopFrequency;
-    std::chrono::time_point<std::chrono::system_clock> start, end;
-
-    bool exit = false;
-    while (exit == false)
+    if (bot)
     {
-        start = std::chrono::system_clock::now(); // Loop timer
+        RobotStatus rs;
 
-        // Metabot control
+        double loopFrequency = 30.0;
+        double loopDuration  = 1000.0 / loopFrequency;
+        std::chrono::time_point<std::chrono::system_clock> start, end;
+
+        bool exit = false;
+        while (exit == false)
         {
-            // Reset direct inputs, not states (walk, crab and inverted)
-            rs.dx = 0.0;
-            rs.dy = 0.0;
-            rs.turn = 0.0;
-            rs.height = 0.0;
+            start = std::chrono::system_clock::now(); // Loop timer
 
-            if (net)
+            // Metabot control
             {
-                // Read inputs from network client
-                net->run(rs, exit);
+                // Reset direct inputs, not states (walk, crab and inverted)
+                rs.dx = 0.0;
+                rs.dy = 0.0;
+                rs.turn = 0.0;
+                rs.height = 0.0;
+
+                if (net)
+                {
+                    // Read inputs from network client
+                    net->run(rs, exit);
+                }
+
+                if (key)
+                {
+                    // Read inputs from keyboard (overwrite network control)
+                    key->run(rs, exit);
+                }
+
+                if (pad)
+                {
+                    // Read inputs from gamepads (overwrite keyboard & network control)
+                    pad->run(rs, exit);
+                }
+
+                if (bot)
+                {
+                    // Forward orders to the metabot
+                    bot->forward(rs);
+
+                    // Execute movements
+                    bot->move();
+                }
             }
 
-            if (key)
+            MiniTraces_flush();
+
+            // Loop timer
+            end = std::chrono::system_clock::now();
+            double loopd = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
+            double waitd = (loopDuration * 1000.0) - loopd;
+
+    #ifdef LATENCY_TIMER
+            if ((loopd / 1000.0) > loopDuration)
+                TRACE_WARNING(MAIN, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
+            else
+                TRACE_1(MAIN, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
+    #endif
+
+            // Loop control
+            if (waitd > 0.0)
             {
-                // Read inputs from keyboard (overwrite network control)
-                key->run(rs, exit);
+                std::chrono::microseconds waittime(static_cast<int>(waitd));
+                std::this_thread::sleep_for(waittime);
             }
-
-            if (pad)
-            {
-                // Read inputs from gamepads (overwrite keyboard & network control)
-                pad->run(rs, exit);
-            }
-
-            if (bot)
-            {
-                // Forward orders to the metabot
-                bot->forward(rs);
-
-                // Execute movements
-                bot->move();
-            }
-        }
-
-        // Loop timer
-        end = std::chrono::system_clock::now();
-        double loopd = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
-        double waitd = (loopDuration * 1000.0) - loopd;
-
-#ifdef LATENCY_TIMER
-        if ((loopd / 1000.0) > loopDuration)
-            TRACE_WARNING(MAIN, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
-        else
-            TRACE_1(MAIN, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
-#endif
-
-        // Loop control
-        if (waitd > 0.0)
-        {
-            std::chrono::microseconds waittime(static_cast<int>(waitd));
-            std::this_thread::sleep_for(waittime);
         }
     }
 
+    delete net;
+    delete key;
     delete pad;
     delete bot;
 

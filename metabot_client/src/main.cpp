@@ -11,7 +11,7 @@
 #include <thread>
 
 //#define LATENCY_TIMER
-#define ENABLE_KEY 1
+#define ENABLE_KEY 0
 #define ENABLE_PAD 1
 
 void main_infos()
@@ -76,16 +76,28 @@ int main(int argc, char *argv[])
     // Init NETWORK
     ////////////////////////////////////////////////////////////////////////////
 
-    networkClient *com = nullptr;
+    TRACE_INFO(MAIN, "MetaBotClient trying connection");
 
-    com = new networkClient();
+    networkClient *com = new networkClient();
     if (com)
     {
-        com->autodetect();
+        bool conn = false;
+        int timeout = 20;
+
+        while (conn == false && timeout > 0)
+        {
+            conn = com->autodetect();
+            timeout--;
+
+            MiniTraces_flush();
+        }
     }
 
-    // Go for it MOTHAFUCKA
+
+    // Start moving around!
     ////////////////////////////////////////////////////////////////////////////
+
+    TRACE_INFO(MAIN, "MetaBotClient control loop starting");
 
     double syncloopFrequency = 30.0;
     double syncloopDuration = 1000.0 / syncloopFrequency;
@@ -127,6 +139,8 @@ int main(int argc, char *argv[])
                 com->send(move);
             }
         }
+
+        MiniTraces_flush();
 
         // Loop timer
         end = std::chrono::system_clock::now();
