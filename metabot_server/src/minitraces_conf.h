@@ -69,20 +69,22 @@
  */
 enum TraceModule_e
 {
-    MAIN,
+    SERIAL,
+    SERVO,
+    TABLES,
+    TOOLS,
     DAPI,
     CAPI,
     DXL,
     HKX,
-    TOOLS,
-    SERIAL,
-    SERVO,
-    TABLES,
 
+    MAIN,
     BOT,
     NET,
     KEY,
     PAD,
+
+    GUI,
 };
 
 /*!
@@ -95,20 +97,22 @@ enum TraceModule_e
  */
 static TraceModule_t trace_modules_table[] =
 {
-    { "MAIN"   , "Main"                             , TRACE_LEVEL_DEBUG },
+    { "SERIAL" , "Serial ports implementations"     , TRACE_LEVEL_DEBUG },
+    { "SERVO"  , "Servo devices"                    , TRACE_LEVEL_DEBUG },
+    { "TABLES" , "Control tables for servo device"  , TRACE_LEVEL_DEBUG },
+    { "TOOLS"  , "Various tools"                    , TRACE_LEVEL_DEBUG },
     { "D-API"  , "Direct API"                       , TRACE_LEVEL_DEBUG },
     { "C-API"  , "Controller API"                   , TRACE_LEVEL_DEBUG },
     { "DXL"    , "Dynamixel protocol"               , TRACE_LEVEL_DEBUG },
     { "HKX"    , "HerkuleX protocol"                , TRACE_LEVEL_DEBUG },
-    { "TOOLS"  , "Various tools"                    , TRACE_LEVEL_DEBUG },
-    { "SERIAL" , "Serial ports implementations"     , TRACE_LEVEL_DEBUG },
-    { "SERVO"  , "Servo devices"                    , TRACE_LEVEL_DEBUG },
-    { "TABLES" , "Control tables for servo device"  , TRACE_LEVEL_DEBUG },
 
+    { "MAIN"   , "Metabot"                          , TRACE_LEVEL_DEBUG },
     { "BOT"    , "Metabot control"                  , TRACE_LEVEL_DEBUG },
     { "NET"    , "Network orders"                   , TRACE_LEVEL_DEBUG },
     { "KEY"    , "Keyboard orders"                  , TRACE_LEVEL_DEBUG },
     { "PAD"    , "Gamepad orders"                   , TRACE_LEVEL_DEBUG },
+
+    { "GUI"    , "Metabot client GUI"                   , TRACE_LEVEL_DEBUG },
 };
 
 /* ************************************************************************** */
