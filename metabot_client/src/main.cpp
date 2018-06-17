@@ -5,10 +5,10 @@
 #include "network.h"
 #include "metabotgui.h"
 
-#include <QApplication>
-
 #include <chrono>
 #include <thread>
+
+#include <QApplication>
 
 //#define LATENCY_TIMER
 #define ENABLE_KEY 0
@@ -37,6 +37,8 @@ void main_infos()
 
 int main(int argc, char *argv[])
 {
+    bool status = false;
+
     main_infos();
 /*
     QApplication a(argc, argv);
@@ -45,7 +47,6 @@ int main(int argc, char *argv[])
 
     return a.exec();
 */
-    RobotStatus move;
 
     // Init KEYBOARD
     ////////////////////////////////////////////////////////////////////////////
@@ -78,18 +79,24 @@ int main(int argc, char *argv[])
 
     TRACE_INFO(MAIN, "MetaBotClient trying connection");
 
-    networkClient *com = new networkClient();
-    if (com)
+    networkClient *net = new networkClient();
+    if (net)
     {
         bool conn = false;
-        int timeout = 20;
+        int timeout = 30;
 
-        while (conn == false && timeout > 0)
+        while (status == false && timeout > 0)
         {
-            conn = com->autodetect();
+            status = net->autodetect();
             timeout--;
 
             MiniTraces_flush();
+
+            if (status == false)
+            {
+                std::chrono::seconds waittime(1);
+                std::this_thread::sleep_for(waittime);
+            }
         }
     }
 
@@ -97,16 +104,18 @@ int main(int argc, char *argv[])
     // Start moving around!
     ////////////////////////////////////////////////////////////////////////////
 
+    RobotStatus move;
+
     TRACE_INFO(MAIN, "MetaBotClient control loop starting");
 
-    double syncloopFrequency = 30.0;
+    double syncloopFrequency = 60.0;
     double syncloopDuration = 1000.0 / syncloopFrequency;
     std::chrono::time_point<std::chrono::system_clock> start, end;
 
-    while (true)
+    while (status)
     {
-        start = std::chrono::system_clock::now(); // Loop timer
         bool exit = false;
+        start = std::chrono::system_clock::now(); // Loop timer
 
         // Metabot control
         {
@@ -128,15 +137,9 @@ int main(int argc, char *argv[])
                 pad->run(move, exit);
             }
 
-            if (exit)
+            if (net)
             {
-                break;
-            }
-
-            // Network stuff
-            if (com)
-            {
-                com->send(move);
+                net->send(move);
             }
         }
 

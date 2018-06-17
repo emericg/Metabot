@@ -43,10 +43,12 @@
  * But you can change these IDs using the below array:
  */
 static int servos_order[] = {
+    // FRONT legs
     1, 2, 3,    // First leg
     4, 5, 6,    // Second leg
+    // BACK legs
     7, 8, 9,    // Third leg
-    10, 11, 12  // Fourth leg
+    10, 11, 12, // Fourth leg
 };
 
 /*!

@@ -80,11 +80,11 @@ BER_SRV=`/usr/bin/ps -aux | grep [b]er_server`
 BOT_SRV=`/usr/bin/ps -aux | grep [M]etaBotServer`
 
 if [[ ${BER_SRV} ]]; then
-    SRV="$(tput setaf 2)[$(tput setaf 7)BER server is $(c5)running$(tput sgr0)$(tput setaf 7)!$(tput setaf 2)]"
+    SRV="$(tput setaf 2)[$(tput setaf 7)BER server is $c5 running$(tput sgr0)$(tput setaf 7)!$(tput setaf 2)]"
 elif [[ ${BOT_SRV} ]]; then
-    SRV="$(tput setaf 2)[$(tput setaf 7)Metabot server is $(c5)running$(tput sgr0)$(tput setaf 7)!$(tput setaf 2)]"
+    SRV="$(tput setaf 2)[$(tput setaf 7)Metabot server is $c5 running$(tput sgr0)$(tput setaf 7)!$(tput setaf 2)]"
 else
-    SRV="$(tput bold)$(tput setaf 2)[$(tput setaf 7)Robots server are $(c4)NOT running...$(tput bold)$(tput setaf 2)]"
+    SRV="$(tput bold)$(tput setaf 2)[$(tput setaf 7)Robots server are $c4 NOT running...$(tput bold)$(tput setaf 2)]"
 fi
 
 echo "        $c2.$c1"

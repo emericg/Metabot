@@ -26,9 +26,9 @@ bool networkClient::autodetect()
 {
     bool status = false;
 
-    sf::IpAddress ip("metabot.local");
+    sf::IpAddress ip("robot.local");
 
-    // ping?
+    // ping first?
 
     // connection
     sf::Socket::Status com = socket.connect(ip, port);
