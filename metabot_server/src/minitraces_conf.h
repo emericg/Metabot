@@ -18,12 +18,16 @@
  *
  * \file      minitraces_conf.h
  * \author    Emeric Grange <emeric.grange@gmail.com>
- * \date      2015
- * \version   0.4
+ * \date      2018
+ * \version   0.52
  */
 
 #ifndef MINITRACES_CONF_H
 #define MINITRACES_CONF_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif // __cplusplus
 /* ************************************************************************** */
 
 // =============================================================================
@@ -34,11 +38,11 @@
 #define MINITRACES_COLORS           1   // Enable terminal colored output
 
 // Advanced debugging features
-#define DEBUG_WITH_TIMESTAMPS       2   //!< 0: disabled, 1: trace tick (in milliseconds), 2: trace time (hh:mm:ss)
-#define DEBUG_WITH_FUNC_INFO        1
-#define DEBUG_WITH_FILE_INFO        0
-#define DEBUG_WITH_FORCED_SYNC      0
-#define DEBUG_WITH_STRICT_PADDING   0   //!< Not implemented yet
+#define MINITRACES_TIMESTAMPS       0   //!< 0: disabled, 1: trace tick (in milliseconds), 2: trace time (hh:mm:ss)
+#define MINITRACES_FUNC_INFO        1
+#define MINITRACES_FILE_INFO        0
+#define MINITRACES_FORCED_SYNC      1
+#define MINITRACES_STRICT_PADDING   0   //!< Not implemented yet
 
 // =============================================================================
 // PROGRAM IDENTIFIER
@@ -47,10 +51,10 @@
 /*!
  * This string will be used to easily identify from which program a trace comes
  * from if multiple program are outputting traces with MiniTraces at the same time.
- * Leave blank if you don't need this feature!
- *
- * You can use bracket, spaces, colors...
+ * You can use brackets, spaces, colors...
  * Example: #define PID OUT_BLUE "[MINITRACE]" CLR_RESET " "
+ *
+ * Leave it blank if you don't need this feature!
  */
 #define PID_BOT OUT_BLUE "[BOT]" CLR_RESET
 #define PID_SSF OUT_GREEN "[SSF]" CLR_RESET
@@ -64,11 +68,14 @@
  * \brief This is the list of module you can use when creating a trace with a TRACE_xxx macro.
  * \note The content of this enum must ALWAYS be in sync with the trace_modules_table[] below.
  *
- * When a TRACE_xxx macro is called with a given module, it will try to match it with a
- * TraceModule_t entry inside the trace_modules_table[] to get access to the module parameters.
+ * When a TRACE_xxx macro is called with a given module, it will try to match it
+ * with a TraceModule_t entry inside the trace_modules_table[] to get access to
+ * the module parameters.
  */
 enum TraceModule_e
 {
+    MAIN,
+
     SERIAL,
     SERVO,
     TABLES,
@@ -78,7 +85,6 @@ enum TraceModule_e
     DXL,
     HKX,
 
-    MAIN,
     BOT,
     NET,
     KEY,
@@ -97,6 +103,8 @@ enum TraceModule_e
  */
 static TraceModule_t trace_modules_table[] =
 {
+    { "MAIN"   , "MiniTrace main module"            , TRACE_LEVEL_DEBUG },
+
     { "SERIAL" , "Serial ports implementations"     , TRACE_LEVEL_DEBUG },
     { "SERVO"  , "Servo devices"                    , TRACE_LEVEL_DEBUG },
     { "TABLES" , "Control tables for servo device"  , TRACE_LEVEL_DEBUG },
@@ -106,7 +114,6 @@ static TraceModule_t trace_modules_table[] =
     { "DXL"    , "Dynamixel protocol"               , TRACE_LEVEL_DEBUG },
     { "HKX"    , "HerkuleX protocol"                , TRACE_LEVEL_DEBUG },
 
-    { "MAIN"   , "Metabot"                          , TRACE_LEVEL_DEBUG },
     { "BOT"    , "Metabot control"                  , TRACE_LEVEL_DEBUG },
     { "NET"    , "Network orders"                   , TRACE_LEVEL_DEBUG },
     { "KEY"    , "Keyboard orders"                  , TRACE_LEVEL_DEBUG },
@@ -116,4 +123,8 @@ static TraceModule_t trace_modules_table[] =
 };
 
 /* ************************************************************************** */
-#endif /* MINITRACES_CONF_H */
+#ifdef __cplusplus
+}
+#endif // __cplusplus
+
+#endif // MINITRACES_CONF_H

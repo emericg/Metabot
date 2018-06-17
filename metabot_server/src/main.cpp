@@ -18,35 +18,35 @@
 
 void main_infos()
 {
-    TRACE_INFO(MAIN, "Metabot " BLD_WHITE "SERVER" CLR_RESET " launched!");
-    TRACE_INFO(MAIN, "Built on '%s, %s'", __DATE__ , __TIME__);
-    TRACE_INFO(MAIN, "");
+    TRACE_INFO(BOT, "Metabot " BLD_WHITE "SERVER" CLR_RESET " launched!");
+    TRACE_INFO(BOT, "Built on '%s, %s'", __DATE__ , __TIME__);
+    TRACE_INFO(BOT, "");
 
 #if ENABLE_BOT == 1
-    TRACE_INFO(MAIN, "Metabot hardware is " BLD_GREEN "ENABLED" CLR_RESET "");
+    TRACE_INFO(BOT, "Metabot hardware is " BLD_GREEN "ENABLED" CLR_RESET "");
 #else
-    TRACE_INFO(MAIN, "Metabot hardware is " BLD_RED "DISABLED" CLR_RESET "");
+    TRACE_INFO(BOT, "Metabot hardware is " BLD_RED "DISABLED" CLR_RESET "");
 #endif
 
 #if ENABLE_NET == 1
-    TRACE_INFO(MAIN, "Network control is " BLD_GREEN "ENABLED" CLR_RESET "");
+    TRACE_INFO(BOT, "Network control is " BLD_GREEN "ENABLED" CLR_RESET "");
 #else
-    TRACE_INFO(MAIN, "Network control is " BLD_RED "DISABLED" CLR_RESET "");
+    TRACE_INFO(BOT, "Network control is " BLD_RED "DISABLED" CLR_RESET "");
 #endif
 
 #if ENABLE_KEY == 1
-    TRACE_INFO(MAIN, "Keyboard control is " BLD_GREEN "ENABLED" CLR_RESET "");
+    TRACE_INFO(BOT, "Keyboard control is " BLD_GREEN "ENABLED" CLR_RESET "");
 #else
-    TRACE_INFO(MAIN, "Keyboard control is " BLD_RED "DISABLED" CLR_RESET "");
+    TRACE_INFO(BOT, "Keyboard control is " BLD_RED "DISABLED" CLR_RESET "");
 #endif
 
 #if ENABLE_PAD == 1
-    TRACE_INFO(MAIN, "Gamepad control is " BLD_GREEN "ENABLED" CLR_RESET "");
+    TRACE_INFO(BOT, "Gamepad control is " BLD_GREEN "ENABLED" CLR_RESET "");
 #else
-    TRACE_INFO(MAIN, "Gamepad control is " BLD_RED "DISABLED" CLR_RESET "");
+    TRACE_INFO(BOT, "Gamepad control is " BLD_RED "DISABLED" CLR_RESET "");
 #endif
 
-    TRACE_INFO(MAIN, "");
+    TRACE_INFO(BOT, "");
 }
 
 int main(int argc, char *argv[])
@@ -70,12 +70,12 @@ int main(int argc, char *argv[])
         {
             delete net;
             net = nullptr;
-            TRACE_ERROR(MAIN, "networkControl setup FATAL ERROR!");
+            TRACE_ERROR(BOT, "networkControl setup FATAL ERROR!");
         }
     }
     else
     {
-        TRACE_ERROR(MAIN, "networkControl allocation FATAL ERROR!");
+        TRACE_ERROR(BOT, "networkControl allocation FATAL ERROR!");
     }
 
     if (!net)
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        TRACE_WARNING(MAIN, "keyboardControl allocation error!");
+        TRACE_WARNING(BOT, "keyboardControl allocation error!");
     }
 #endif // ENABLE_KEY
 
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        TRACE_WARNING(MAIN, "gamepadControl allocation error!");
+        TRACE_WARNING(BOT, "gamepadControl allocation error!");
     }
 #endif // ENABLE_PAD
 
@@ -127,18 +127,18 @@ int main(int argc, char *argv[])
     {
         if (bot->setup() == true)
         {
-            TRACE_INFO(MAIN, ">> Metabot is connected!");
+            TRACE_INFO(BOT, ">> Metabot is connected!");
         }
         else
         {
             delete bot;
             bot = nullptr;
-            TRACE_ERROR(MAIN, "Metabot connection FATAL ERROR!");
+            TRACE_ERROR(BOT, "Metabot connection FATAL ERROR!");
         }
     }
     else
     {
-        TRACE_ERROR(MAIN, "Metabot allocation FATAL ERROR!");
+        TRACE_ERROR(BOT, "Metabot allocation FATAL ERROR!");
     }
 #endif // ENABLE_BOT
 
@@ -205,9 +205,9 @@ int main(int argc, char *argv[])
 
     #ifdef LATENCY_TIMER
             if ((loopd / 1000.0) > loopDuration)
-                TRACE_WARNING(MAIN, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
+                TRACE_WARNING(BOT, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
             else
-                TRACE_1(MAIN, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
+                TRACE_1(BOT, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
     #endif
 
             // Loop control
@@ -224,6 +224,6 @@ int main(int argc, char *argv[])
     delete pad;
     delete bot;
 
-    TRACE_INFO(MAIN, "MetaBotServer exiting normally!");
+    TRACE_INFO(BOT, "MetaBotServer exiting normally!");
     return EXIT_SUCCESS;
 }

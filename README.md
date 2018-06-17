@@ -12,7 +12,7 @@ This Raspberry Pi version unlock some nice features:
   * "Direct" control mode (when connecting input device(s) to the RPi)
   * "Network" control mode (when using another computer/mobile device connected to the RPi wifi hotspot)
 
-![My Metabot with its electronic](http://i.imgur.com/zki2b5d.jpg)
+![My Metabot with its electronic](http://i.imgur.com/uBipQtQ.jpg)
 ![My Metabot without its electronic](http://i.imgur.com/F7R5CUV.jpg)
 
 [Photos and video gallery of my Metabot](https://goo.gl/photos/wsRBAoyg2RaMAJFPA)

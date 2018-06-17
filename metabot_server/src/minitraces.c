@@ -1,5 +1,5 @@
 /*!
- * COPYRIGHT (C) 2017 Emeric Grange - All Rights Reserved
+ * COPYRIGHT (C) 2018 Emeric Grange - All Rights Reserved
  *
  * This file is part of MiniTraces.
  *
@@ -18,8 +18,8 @@
  *
  * \file      minitraces.c
  * \author    Emeric Grange <emeric.grange@gmail.com>
- * \date      2017
- * \version   0.51
+ * \date      2018
+ * \version   0.52
  */
 
 // MiniTraces header

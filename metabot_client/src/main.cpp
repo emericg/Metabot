@@ -16,23 +16,23 @@
 
 void main_infos()
 {
-    TRACE_INFO(MAIN, "Metabot " BLD_WHITE "CLIENT" CLR_RESET " launched!");
-    TRACE_INFO(MAIN, "Built on '%s, %s'", __DATE__ , __TIME__);
-    TRACE_INFO(MAIN, "");
+    TRACE_INFO(BOT, "Metabot " BLD_WHITE "CLIENT" CLR_RESET " launched!");
+    TRACE_INFO(BOT, "Built on '%s, %s'", __DATE__ , __TIME__);
+    TRACE_INFO(BOT, "");
 
 #if ENABLE_KEY == 1
-    TRACE_INFO(MAIN, "Keyboard control is " BLD_GREEN "ENABLED" CLR_RESET);
+    TRACE_INFO(BOT, "Keyboard control is " BLD_GREEN "ENABLED" CLR_RESET);
 #else
-    TRACE_INFO(MAIN, "Keyboard control is " BLD_RED "DISABLED" CLR_RESET);
+    TRACE_INFO(BOT, "Keyboard control is " BLD_RED "DISABLED" CLR_RESET);
 #endif
 
 #if ENABLE_PAD == 1
-    TRACE_INFO(MAIN, "Gamepad control is " BLD_GREEN "ENABLED" CLR_RESET);
+    TRACE_INFO(BOT, "Gamepad control is " BLD_GREEN "ENABLED" CLR_RESET);
 #else
-    TRACE_INFO(MAIN, "Gamepad control is " BLD_RED "DISABLED" CLR_RESET);
+    TRACE_INFO(BOT, "Gamepad control is " BLD_RED "DISABLED" CLR_RESET);
 #endif
 
-    TRACE_INFO(MAIN, "");
+    TRACE_INFO(BOT, "");
 }
 
 int main(int argc, char *argv[])
@@ -47,7 +47,6 @@ int main(int argc, char *argv[])
 
     return a.exec();
 */
-
     // Init KEYBOARD
     ////////////////////////////////////////////////////////////////////////////
 
@@ -77,7 +76,7 @@ int main(int argc, char *argv[])
     // Init NETWORK
     ////////////////////////////////////////////////////////////////////////////
 
-    TRACE_INFO(MAIN, "MetaBotClient trying connection");
+    TRACE_INFO(BOT, "MetaBotClient trying connection");
 
     networkClient *net = new networkClient();
     if (net)
@@ -106,7 +105,7 @@ int main(int argc, char *argv[])
 
     RobotStatus move;
 
-    TRACE_INFO(MAIN, "MetaBotClient control loop starting");
+    TRACE_INFO(BOT, "MetaBotClient control loop starting");
 
     double syncloopFrequency = 60.0;
     double syncloopDuration = 1000.0 / syncloopFrequency;
@@ -152,9 +151,9 @@ int main(int argc, char *argv[])
 
 #ifdef LATENCY_TIMER
         if ((loopd / 1000.0) > syncloopDuration)
-            TRACE_WARNING(MAIN, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
+            TRACE_WARNING(BOT, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
         else
-            TRACE_1(MAIN, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
+            TRACE_1(BOT, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
 #endif
 
         if (waitd > 0.0)
@@ -164,6 +163,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    TRACE_INFO(MAIN, "MetaBotClient exiting normaly!");
+    TRACE_INFO(BOT, "MetaBotClient exiting normaly!");
     return EXIT_SUCCESS;
 }
