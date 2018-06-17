@@ -14,7 +14,7 @@ This Raspberry Pi version unlock some nice features:
 
 ![A metabot without its electronic](http://i.imgur.com/F7R5CUV.jpg)
 
-[Photos and video gallery of my metabot](https://goo.gl/photos/wsRBAoyg2RaMAJFPA)
+[Photos and video gallery of my Metabot](https://goo.gl/photos/wsRBAoyg2RaMAJFPA)
 
 ## How to
 
@@ -25,10 +25,15 @@ You can build both the client and the server on pretty much any OS / HW platform
 
 I have set up a shared google doc for my [Raspberry Pi stuffs](https://docs.google.com/document/d/1sD5Fkbx5KoUHv-pklI8Ck-DyjcLpjsvI0ImGqL_Kb-Q/edit?usp=sharing). It explain how to install and set up an Arch Linux onto a Pi, stream the camera... Its mostly a memo for myself, but it could be useful to others.
 
-### Metabot server
+### Metabot
 
 Make sure you checkouted a copy of the [SmartServoFramework](https://github.com/emericg/SmartServoFramework) at the repository root:
+
+> $ git clone https://github.com/emericg/Metabot.git  
+> $ cd Metabot  
 > $ git clone https://github.com/emericg/SmartServoFramework.git  
+
+### Metabot server
 
 Then you can build the metabot server:
 > $ cd metabot_server  

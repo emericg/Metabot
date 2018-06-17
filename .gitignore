@@ -4,10 +4,13 @@ stash/
 # Build directories
 metabot_server/build/*
 metabot_client/build/*
-Makefile
+SmartServoFramework/*
 
 # QtCreator project files
 *.pro.*
+
+# Make teporary files
+Makefile
 
 # QMake temporary files
 .qmake.stash
@@ -16,7 +19,6 @@ Makefile
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
-
 install_manifest.txt
 cmake_install.cmake
 cmake_defines.h

@@ -13,13 +13,14 @@ MOC_DIR     = build/
 OBJECTS_DIR = build/
 
 # SmartServoFramework
-contains(CONFIG, EXTERNAL_FRAMEWORK) {
+contains(CONFIG, SSF_SYSTEM) {
+    # Use SmartServoFramework library from the system
     unix {
         INCLUDEPATH += `pkg-config --cflags smartservoframework`
         LIBS += `pkg-config --libs smartservoframework`
     }
     win32 {
-        SSF_DIR = ..
+        SSF_DIR = ../SmartServoFramework
         INCLUDEPATH += $${SSF_DIR}
         LIBS += $${SSF_DIR}/build/smartservoframework.lib
     }

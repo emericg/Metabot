@@ -1,0 +1,16 @@
+# This is the "Metabot" unit / service file
+# install into /usr/local/systemd/system/
+
+[Unit]
+Description=Metabot server app
+After=multi-user.service
+
+[Service]
+User=robot
+ExecStart=/home/robot/Metabot/metabot_server/build/MetaBotServer
+TimeoutStartSec=0
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=metabot.target

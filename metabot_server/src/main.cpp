@@ -13,8 +13,8 @@
 //#define LATENCY_TIMER
 #define ENABLE_BOT 1
 #define ENABLE_NET 1
-#define ENABLE_KEY 1
-#define ENABLE_PAD 1
+#define ENABLE_KEY 0
+#define ENABLE_PAD 0
 
 void main_infos()
 {

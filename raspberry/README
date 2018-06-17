@@ -1,0 +1,9 @@
+
+# Stored your unit/target here: /etc/systemd/system/
+# Stored your local unit/target here: /usr/local/systemd/system/
+
+# Official doc:
+# - https://www.freedesktop.org/software/systemd/man/systemd.unit.html
+# - https://www.freedesktop.org/software/systemd/man/systemd.service.html
+# - https://www.freedesktop.org/software/systemd/man/systemd.target.html
+

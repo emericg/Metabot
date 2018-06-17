@@ -1,0 +1,10 @@
+# This is the "Metabot" target file
+# install into /usr/local/systemd/system/
+
+[Unit]
+Description=Start Metabot Server
+#Requires=multi-user.target
+After=multi-user.target
+Wants=metabot.service camera.service
+Conflicts=rover.service rover.target
+AllowIsolate=yes

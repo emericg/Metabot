@@ -1,0 +1,15 @@
+# This is the "Camera streaming" unit / service file
+
+[Unit]
+Description=Camera streaming
+#After=someunit.service
+#Requires=somerequiredunit.service
+
+[Service]
+TimeoutStartSec=0
+RestartSec=15
+ExecStart=/opt/vc/bin/raspivid -t 0 -hf -fps 30 -w 1280 -h 720 -o - | gst-launch-1.0 fdsrc ! h264parse ! rtph264pay config-interval=1 pt=96 ! gdppay ! tcpserversink host=192.168.1.39 port=5000
+
+[Install]
+WantedBy=metabot.target
+WantedBy=rover.target
