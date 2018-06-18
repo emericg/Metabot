@@ -5,15 +5,17 @@ Metabot
 
 The [Metabot](http://metabot.cc/) is a cool open-source DIY parametric robot created by [Rhoban](http://rhoban.com/).  
 
-This Raspberry Pi version unlock some nice features:
-* Wifi hotspot, so every device can connect directly to the Metabot
-* High quality camera streaming
-* New control modes using keyboard or gamepads:
+But this one is special...
+* Custom electronics
+* Autonomous with its Raspberry Pi
+* Real time high quality camera streaming
+* Wifi hotspot, so other computers can connect directly
+* New control modes using keyboards and gamepads:
   * "Direct" control mode (when connecting input device(s) to the RPi)
   * "Network" control mode (when using another computer/mobile device connected to the RPi wifi hotspot)
 
-![My Metabot with its electronic](http://i.imgur.com/uBipQtQ.jpg)
-![My Metabot without its electronic](http://i.imgur.com/F7R5CUV.jpg)
+![Metabot with its electronic](http://i.imgur.com/uBipQtQ.jpg)
+![Metabot without its electronic](http://i.imgur.com/F7R5CUV.jpg)
 
 [Photos and video gallery of my Metabot](https://goo.gl/photos/wsRBAoyg2RaMAJFPA)
 
