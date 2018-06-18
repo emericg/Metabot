@@ -16,9 +16,6 @@
 #define GAIT_WALK       0
 #define GAIT_TROT       1
 
-// Default gait mode
-#define GAIT_DEFAULT    GAIT_WALK
-
 // Legs count
 #define LEGS    12
 

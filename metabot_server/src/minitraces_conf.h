@@ -80,8 +80,8 @@ enum TraceModule_e
     SERVO,
     TABLES,
     TOOLS,
-    DAPI,
-    CAPI,
+    SAPI,
+    MAPI,
     DXL,
     HKX,
 
@@ -107,10 +107,10 @@ static TraceModule_t trace_modules_table[] =
 
     { "SERIAL" , "Serial ports implementations"     , TRACE_LEVEL_DEBUG },
     { "SERVO"  , "Servo devices"                    , TRACE_LEVEL_DEBUG },
-    { "TABLES" , "Control tables for servo device"  , TRACE_LEVEL_DEBUG },
+    { "TABLES" , "Control tables for servo devices" , TRACE_LEVEL_DEBUG },
     { "TOOLS"  , "Various tools"                    , TRACE_LEVEL_DEBUG },
-    { "D-API"  , "Direct API"                       , TRACE_LEVEL_DEBUG },
-    { "C-API"  , "Controller API"                   , TRACE_LEVEL_DEBUG },
+    { "S-API"  , "Simple API"                       , TRACE_LEVEL_DEBUG },
+    { "M-API"  , "Managed API"                      , TRACE_LEVEL_DEBUG },
     { "DXL"    , "Dynamixel protocol"               , TRACE_LEVEL_DEBUG },
     { "HKX"    , "HerkuleX protocol"                , TRACE_LEVEL_DEBUG },
 

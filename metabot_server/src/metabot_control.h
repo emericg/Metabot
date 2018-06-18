@@ -87,7 +87,7 @@ class Metabot
     double voltageMatrix[LEGS] = {0.0};
 
     // Gait mode selector
-    bool gait = GAIT_DEFAULT;
+    bool gait = GAIT_WALK;
 
     // Functions
     Function rise;
