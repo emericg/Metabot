@@ -107,7 +107,7 @@ static TraceModule_t trace_modules_table[] =
 
     { "SERIAL" , "Serial ports implementations"     , TRACE_LEVEL_DEBUG },
     { "SERVO"  , "Servo devices"                    , TRACE_LEVEL_DEBUG },
-    { "TABLES" , "Control tables for servo devices" , TRACE_LEVEL_DEBUG },
+    { "TABLES" , "Servo devices control tables"     , TRACE_LEVEL_DEBUG },
     { "TOOLS"  , "Various tools"                    , TRACE_LEVEL_DEBUG },
     { "S-API"  , "Simple API"                       , TRACE_LEVEL_DEBUG },
     { "M-API"  , "Managed API"                      , TRACE_LEVEL_DEBUG },
@@ -119,7 +119,7 @@ static TraceModule_t trace_modules_table[] =
     { "KEY"    , "Keyboard orders"                  , TRACE_LEVEL_DEBUG },
     { "PAD"    , "Gamepad orders"                   , TRACE_LEVEL_DEBUG },
 
-    { "GUI"    , "Metabot client GUI"                   , TRACE_LEVEL_DEBUG },
+    { "GUI"    , "Metabot client GUI"               , TRACE_LEVEL_DEBUG },
 };
 
 /* ************************************************************************** */
