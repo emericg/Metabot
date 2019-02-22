@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
     ////////////////////////////////////////////////////////////////////////////
 
     networkControl *net = nullptr;
+    bool networkClientConnected = false;
 
 #if ENABLE_NET == 1
     net = new networkControl();
@@ -203,12 +204,12 @@ int main(int argc, char *argv[])
             double loopd = std::chrono::duration_cast<std::chrono::microseconds>(end-start).count();
             double waitd = (loopDuration * 1000.0) - loopd;
 
-    #ifdef LATENCY_TIMER
+#ifdef LATENCY_TIMER
             if ((loopd / 1000.0) > loopDuration)
                 TRACE_WARNING(BOT, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
             else
                 TRACE_1(BOT, "Control loop duration: %f ms of the %f ms budget.", (loopd / 1000.0), loopDuration);
-    #endif
+#endif
 
             // Loop control
             if (waitd > 0.0)
